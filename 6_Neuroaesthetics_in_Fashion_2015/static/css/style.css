@@ -1,0 +1,12 @@
+.link--active {
+    font-weight: bold;
+    background-color: #8399AF;
+}
+
+.link {
+    cursor: pointer;
+}
+
+.experimentsList{
+    background-color: #fff;
+}
