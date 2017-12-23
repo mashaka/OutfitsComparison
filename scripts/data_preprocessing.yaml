@@ -1,0 +1,15 @@
+# Author: Maria Sandrikova
+# Description: Config for data_processing.py script
+
+# Name of root data folder in 'data' directory
+root_dir: 17flowers
+# Name of pretrained model for which we prepairing data
+# Supported models: Xception
+model_name: Xception
+
+# Expected names of directories and files inside data directory
+images_dir: images
+labels_file: labels.csv
+validation_ids: validids.csv
+test_ids: testids.csv
+train_ids: trainids.csv

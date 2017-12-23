@@ -1,0 +1,30 @@
+# Author: Maria Sandrikova
+# Description: Config for train.py script
+
+# Name of experiment
+experiment_name: Xception
+# Description
+description: Add Dense layer to fixed Xception model
+
+# Pretrained model name
+model_name: Xception
+
+data_dir: 17flowers
+number_of_classes: 17
+
+# Network training params
+batch_size: 512
+#num_epoches: 300
+num_epoches: 5
+loss: categorical_crossentropy
+optimizer: rmsprop
+metrics: ['accuracy']
+
+# Names for log files
+model_file: model.json
+weights_file: model.h5
+logs_file: model.log
+
+# For reproducable results
+numpy_seed: 113
+tensorflow_seed: 114 

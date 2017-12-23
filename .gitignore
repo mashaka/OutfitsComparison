@@ -1,3 +1,9 @@
+/data
+*.h5
+*.npz
+
+.vscode/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
