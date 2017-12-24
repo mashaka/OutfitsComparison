@@ -8,6 +8,7 @@ import time
 import yaml
 import shutil
 import numpy as np
+from numpy import argmax
 
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
@@ -33,8 +34,17 @@ tf.set_random_seed(config['tensorflow_seed'])
 from keras.models import Model
 from keras.layers import Dense, GlobalAveragePooling2D
 import keras.callbacks
+from keras.preprocessing.image import ImageDataGenerator
 
 SUPPORTED_MODELS = ['Xception']
+
+# Import correct model for preprocessing
+if config['model_name'] == 'Xception':
+    from keras.applications.xception import preprocess_input
+    print('Import modules for {} model'.format(config['model_name']))
+else:
+    raise ValueError('{} model is not supported. Use one of these models: {}'.format(
+        config['model_name'], SUPPORTED_MODELS))
 
 def check_config():
     """ Sanity checks for a config """
@@ -48,10 +58,9 @@ def check_config():
             config['model_name'],
             SUPPORTED_MODELS
         ))
-    if not os.path.exists(os.path.join(DATA_DIR, config['data_dir'], config['model_name'])):
+    if not os.path.exists(os.path.join(DATA_DIR, config['data_dir'])):
         raise ValueError(
-            'Data directory for {} model and {} initial does not exists'.format(
-                config['model_name'],
+            'Data directory {}  does not exists'.format(
                 config['data_dir']
             ))
 
@@ -63,34 +72,6 @@ def init_experiment_folder():
     shutil.copy(CONFIG_FILE, os.path.join(experiment_dir, CONFIG_NAME))
     os.makedirs(os.path.join(experiment_dir, CHECKPOINTS_DIR_NAME))
 
-def load_dataset(name):
-    """ Load one dataset """
-    data_dir = os.path.join(DATA_DIR, config['data_dir'], config['model_name'])
-    dataset_npz = np.load(os.path.join(data_dir, name))
-    # Convert them to real dicts to have possibility to add new keys in it in future
-    return {'x': dataset_npz['x'], 'y': dataset_npz['y']}
-
-def load_data():
-    """
-    Load training, test and validation datasests from NPZ archives
-    """
-    print('Start loading data {} for {} model'.format(config['data_dir'], config['model_name']))
-    start = time.time()
-    test = load_dataset('test.npz')
-    train = load_dataset('train.npz')
-    validation = load_dataset('validation.npz')
-    print('Finish loading data in {}'.format(time.strftime("%H:%M:%S", time.gmtime(time.time() - start))))
-    return test, train, validation
-
-def describe_data(test, train, validation):
-    """
-    Print information about datasets
-    """
-    print('Train shape: {}'.format(train['x'].shape))
-    print('Test shape: {}'.format(test['x'].shape))
-    print('Validation shape: {}'.format(validation['x'].shape))
-    print('--------------------------------------------')
-
 def import_base_model():
     """ Import particular pretrained model """
     if config['model_name'] == 'Xception':
@@ -100,25 +81,32 @@ def import_base_model():
         raise ValueError('{} model is not supported. Use one of these models: {}'.format(
             config['model_name'], SUPPORTED_MODELS))
 
-def one_hot_encode_dataset(label_encoder, dataset):
-    integer_encoded = label_encoder.fit_transform(dataset['y'])
-    onehot_encoder = OneHotEncoder(sparse=False)
-    integer_encoded = integer_encoded.reshape(len(integer_encoded), 1)
-    return onehot_encoder.fit_transform(integer_encoded)
+def get_image_size_for_model():
+    """ Return size of an image accepted by given model """
+    if config['model_name'] == 'Xception':
+        return (299, 299)
+    else:
+        raise ValueError('{} model is not supported. Use one of these models: {}'.format(
+            config['model_name'], SUPPORTED_MODELS))
 
-def one_hot_encode(test, train, validation):
-    """ Transform categorical data to its one-hot-encoded version """
-    label_encoder = LabelEncoder()
-    for dataset in [test, train, validation]:
-        dataset['one_hot_encoded'] = one_hot_encode_dataset(label_encoder, dataset)
-    return label_encoder
+def prepare_data_generator(split_name):
+    """ Create data generator for particular split """
+    datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
+    generator = datagen.flow_from_directory(
+        os.path.join(DATA_DIR, config['data_dir'], split_name),
+        target_size=get_image_size_for_model(),
+        batch_size=config['batch_size'],
+        class_mode='categorical')
+    return generator
 
-def train_model(test, train, validation):
+def train_model():
     """ Train model, estimate results and save logs """
-    start = time.time()
-    # Transform categorical data to its one-hot-encoded version
-    label_encoder = one_hot_encode(test, train, validation)
+    print('Start loading data')
+    train_generator = prepare_data_generator('train')
+    validation_generator = prepare_data_generator('validation')
 
+    print('Start training')
+    start = time.time()
     # Init pretrained model
     base_model = import_base_model()
     # Add a global spatial average pooling layer
@@ -157,13 +145,13 @@ def train_model(test, train, validation):
         json_file.write(model_json)
 
     # Train model
-    ret = model.fit(
-        x=train['x'], y=train['one_hot_encoded'],
-        batch_size=config['batch_size'],
+    ret = model.fit_generator(
+        generator=train_generator,
+        steps_per_epoch=len(train_generator),
         epochs=config['num_epoches'],
-        shuffle=False, # we want reproducable results
         verbose=1,
-        validation_data=(validation['x'], validation['one_hot_encoded']),
+        validation_data=validation_generator,
+        validation_steps=len(validation_generator),
         callbacks=[check_cb, earlystop_cb])
 
     # Serialize weights in HDF5
@@ -172,26 +160,30 @@ def train_model(test, train, validation):
     with open(os.path.join(experiment_dir, config['logs_file']), 'w') as logs_file:
         logs_file.write(str(ret.history))
     print('Saved model to disk')
+    test_generator = prepare_data_generator('test')
     # Predict results on test dataset
-    predicted = model.predict(test['x'])
+    predicted = model.predict_generator(
+        generator=test_generator,
+        steps=len(test_generator)
+    )
     np.savez(
         os.path.join(experiment_dir, 'predicted.npz'),
         pred=predicted
     )
     print('Saved predictions')
     # Estimate
-    loss, acc = model.evaluate(test['x'], test['one_hot_encoded'], verbose=1)
+    loss, acc = model.evaluate_generator(
+        generator=test_generator,
+        steps=len(test_generator)
+    )
     print('\nTesting loss: {}, acc: {}\n'.format(loss, acc))
     print('Finish working in {}'.format(time.strftime("%H:%M:%S", time.gmtime(time.time() - start))))
     
-
 def execute():
     """ Execute script """
     check_config()
     init_experiment_folder()
-    test, train, validation = load_data()
-    describe_data(test, train, validation)
-    train_model(test, train, validation)
+    train_model()
 
 if __name__ == "__main__":
     execute()

@@ -2,7 +2,7 @@
 # Description: Config for data_processing.py script
 
 # Name of root data folder in 'data' directory
-root_dir: 17flowers
+root_dir: 144k
 # Name of pretrained model for which we prepairing data
 # Supported models: Xception
 model_name: Xception
