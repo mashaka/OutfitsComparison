@@ -1,0 +1,8 @@
+# Description: Settings for dashboard
+
+experiments_dir: ['baseline/results/Xception_3']
+experiment_config: network_config.yaml
+
+# Define names of visual logs
+plots_dir: plots
+description_name: description.html

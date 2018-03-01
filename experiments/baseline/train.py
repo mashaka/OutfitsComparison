@@ -1,5 +1,4 @@
 """
-Author: Maria Sandrikova
 Description: Train baseline model adding several Dense layers to 
     pretrained model, like Xception
 """

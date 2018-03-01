@@ -1,5 +1,4 @@
 """
-Author: Maria Sandrikova
 Description: Script for data preprocessing for preprocessing 
     for particular pretrained model on which network will be based
 

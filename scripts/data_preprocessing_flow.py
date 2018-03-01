@@ -1,5 +1,4 @@
 """
-Author: Maria Sandrikova
 Description: Preprocess dataset to use it with keras flow_from_directory()
 """
 import os

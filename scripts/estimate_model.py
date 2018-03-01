@@ -1,5 +1,4 @@
 """
-Author: Maria Sandrikova
 Description: Estimate trained model
 """
 import os

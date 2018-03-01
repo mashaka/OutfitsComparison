@@ -1,5 +1,4 @@
 """
-Author: Maria Sandrikova
 Description: Clean exif data for all images in given directory because
 keras can't read some of them.
 """
