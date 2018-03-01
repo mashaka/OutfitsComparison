@@ -1,7 +1,6 @@
 """
 Author: Maria Sandrikova
-Description: Train baseline model adding several Dense layers to 
-    pretrained model, like Xception
+Description: Estimate trained model
 """
 import os
 import yaml
@@ -14,7 +13,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 
 WORKING_DIR = os.path.dirname(__file__)
-EXPERIMENT_DIR = os.path.join(WORKING_DIR, '..', 'baseline', 'results', 'Xception')
+EXPERIMENT_DIR = os.path.join(WORKING_DIR, '..', 'experiments', 'baseline', 'results', 'Xception')
 DATA_DIR = os.path.join(WORKING_DIR, '..', 'data')
 
 CONFIG_NAME = 'network_config.yaml'
@@ -45,7 +44,7 @@ def load_model():
     with open(os.path.join(EXPERIMENT_DIR, config['model_file'])) as json_file:
         loaded_model_json = json_file.read()
     loaded_model = model_from_json(loaded_model_json)
-    # Загружаем веса модели
+    # Load model's weights
     loaded_model.load_weights(os.path.join(EXPERIMENT_DIR, config['weights_file']))
     return loaded_model
 

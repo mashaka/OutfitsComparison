@@ -14,7 +14,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 
 WORKING_DIR = os.path.dirname(__file__)
-DATA_DIR = os.path.join(WORKING_DIR, '..', 'data')
+DATA_DIR = os.path.join(WORKING_DIR, '..', '..', 'data')
 RESULTS_DIR = os.path.join(WORKING_DIR, 'results')
 CHECKPOINTS_DIR_NAME = 'checkpoints'
 
