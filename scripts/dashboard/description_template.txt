@@ -1,6 +1,14 @@
 ## {}
 
+{}
+
+**Used dataset:** {}
+
+**Loss:** {}
+
+**Optimizer:** {}
+
 **Epoch number:** {}
 
-#### Description
-{}
+**Batch size:** {}
+

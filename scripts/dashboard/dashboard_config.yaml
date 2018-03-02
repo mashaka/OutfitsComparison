@@ -1,8 +1,13 @@
 # Description: Settings for dashboard
 
-experiments_dir: ['baseline/results/Xception_3']
+experiments_dir: ['baseline/results/Xception_3', 'baseline/results/autumn_nir']
 experiment_config: network_config.yaml
+log_file: model.log
+model_file: model.json
 
 # Define names of visual logs
 plots_dir: plots
 description_name: description.html
+loss_plot_name: loss_plot.html
+acc_plot_name: acc_plot.html
+scheme_name: scheme.png
