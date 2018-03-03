@@ -98,6 +98,7 @@ def generate_plots_for_experiment(dashboard_config, experiment_dir):
     else:
         #return
         pass
+    generate_description_markdown(dashboard_config, experiment_config, experiment_dir)
     plot_metrics(experiment_dir, dashboard_config, dashboard_config['loss_plot_name'], 'loss', 'val_loss')
     plot_metrics(experiment_dir, dashboard_config, dashboard_config['acc_plot_name'], 'acc', 'val_acc')
     generate_model_scheme(experiment_dir, dashboard_config)
