@@ -3,20 +3,19 @@ Description: Update information on dashboard webpage
 """
 import os
 import yaml
-import markdown2
 import demjson
 import plotly.offline as of_py
 import plotly.graph_objs as go
 from keras.models import model_from_json
 from keras.utils.vis_utils import plot_model
 
+from generate_desc_markdown import generate_description_markdown
+
 WORKING_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.join(WORKING_DIR, '..', '..')
 DASHBOARD_ROOT = os.path.join(ROOT_DIR, 'dashboard')
 EXPERIMENTS_ROOT = os.path.join(ROOT_DIR, 'experiments')
 DASHBOARD_CONFIG = os.path.join(WORKING_DIR, 'dashboard_config.yaml')
-DESCRIPTION_TEMPLATE = os.path.join(WORKING_DIR, 'description_template.txt')
-
 
 def generate_model_scheme(experiment_dir, dashboard_config):
     """
@@ -65,28 +64,6 @@ def plot_metrics(experiment_dir, dashboard_config, plot_name, first_metric, seco
         filename=os.path.join(experiment_dir, dashboard_config['plots_dir'], plot_name),
         auto_open=False
     )
-
-def generate_description_markdown(dashboard_config, experiment_config, experiment_dir):
-    """ Generate an experiment's description """
-    with open(DESCRIPTION_TEMPLATE) as md_file:
-        data = md_file.read()
-    data = data.format(
-        experiment_config['experiment_name'],
-        experiment_config['description'],
-        experiment_config['data_dir'],
-        experiment_config['loss'],
-        experiment_config['optimizer'],
-        experiment_config['num_epoches'],
-        experiment_config['batch_size']
-    )
-    html_data = markdown2.markdown(data)
-    result_file = os.path.join(
-        experiment_dir,
-        dashboard_config['plots_dir'],
-        dashboard_config['description_name']
-    )
-    with open(result_file, 'w+') as html_file:
-        html_file.write(html_data)
 
 def generate_plots_for_experiment(dashboard_config, experiment_dir):
     """ Generate plots for one experiment """
