@@ -26,9 +26,9 @@ var app = new Vue({
     descriptionPath: fullPathDecorator(function(){
       return this.current + '/plots/description.html';
     }),
-    resultMetricsPath: function(){
-      return 'https://plot.ly/~jackp/10002.embed?link=false';
-    },
+    resultMetricsPath: fullPathDecorator(function(){
+      return this.current + '/plots/results.html';
+    }),
     schemePath: fullPathDecorator(function(){
       return this.current + '/plots/scheme.png';
     })

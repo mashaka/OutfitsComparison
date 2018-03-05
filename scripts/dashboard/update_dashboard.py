@@ -10,6 +10,7 @@ from keras.models import model_from_json
 from keras.utils.vis_utils import plot_model
 
 from generate_desc_markdown import generate_description_markdown
+from generate_model_results import generate_model_results
 
 WORKING_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.join(WORKING_DIR, '..', '..')
@@ -79,6 +80,7 @@ def generate_plots_for_experiment(dashboard_config, experiment_dir):
     plot_metrics(experiment_dir, dashboard_config, dashboard_config['loss_plot_name'], 'loss', 'val_loss')
     plot_metrics(experiment_dir, dashboard_config, dashboard_config['acc_plot_name'], 'acc', 'val_acc')
     generate_model_scheme(experiment_dir, dashboard_config)
+    generate_model_results(dashboard_config, experiment_config, experiment_dir)
 
 def generate_experiments_dir_js(dashboard_config):
     """ Generate file experiments_dir.js """

@@ -34,62 +34,62 @@
         </div>
         <div  v-if="current != OVERVIEW">
             <div class="container-fluid">     
-                <div class="row">
+                <div class="row description-row">
                     <div class="col-sm-6 col-md-4">
-                        <div class="chart-wrapper">
-                        <div class="chart-title">
-                            Loss
-                        </div>
-                        <div class="chart-stage">
-                            <iframe frameborder="0" scrolling="yes" :src="lossPlotPath"></iframe>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4">
-                        <div class="chart-wrapper">
-                        <div class="chart-title">
-                            Accuracy
-                        </div>
-                        <div class="chart-stage">
-                            <iframe frameborder="0" scrolling="yes" :src="accuracyPlotPath"></iframe>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
                         <div class="chart-wrapper">
                         <div class="chart-title">
                             Description
                         </div>
                         <div class="chart-stage">
-                            <iframe frameborder="0" scrolling="yes" :src="descriptionPath"></iframe>
+                            <iframe class="description-row" frameborder="0" scrolling="yes" :src="descriptionPath"></iframe>
                         </div>
                         </div>
                     </div>
-                </div>       
-                <div class="row">
-                <div class="col-sm-8">
-                    <div class="chart-wrapper">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="chart-wrapper">
                         <div class="chart-title">
                             Result metrics
                         </div>
                         <div class="chart-stage">
+                            <iframe class="description-row" frameborder="0" scrolling="yes" :src="resultMetricsPath"></iframe>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="chart-wrapper">
+                            <div class="chart-title">
+                                Architecture
+                            </div>
+                            <div class="chart-stage">
+                                <div class="container-scrollable description-row">
+                                    <img :src="schemePath"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>       
+                <div class="row plots-row">
+                <div class="col-sm-6">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            Accuracy
+                        </div>
+                        <div class="chart-stage">
                             <div id="grid-1-1">
                                 <div>
-                                    <iframe frameborder="0" scrolling="yes" :src="resultMetricsPath"></iframe>
+                                    <iframe class="plots-row" frameborder="0" scrolling="yes" :src="accuracyPlotPath"></iframe>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-4">
+                <div class="col-sm-6">
                     <div class="chart-wrapper">
                         <div class="chart-title">
-                            Architecture
+                            Loss
                         </div>
                         <div class="chart-stage">
-                            <div class="container-scrollable">
-                                <image :src="schemePath"/>
-                            </div>
+                            <iframe class="plots-row" frameborder="0" scrolling="yes" :src="lossPlotPath"></iframe>
                         </div>
                     </div>
                 </div>
