@@ -3,5 +3,5 @@
 | 1-10 classif. accuracy        | {}    |
 | 1-10 classif. accuracy, gap 1 | {}    |
 | 1-10 classif. accuracy, gap 2 | {}    |
-| Regression accuracy           | {}    |
+| MAE, Regression               | {}    |
 | Correctly estimated pairs     | {}    |

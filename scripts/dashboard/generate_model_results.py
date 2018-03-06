@@ -29,3 +29,5 @@ def generate_model_results(dashboard_config, experiment_config, experiment_dir):
     )
     with open(result_file, 'w+') as html_file:
         html_file.write(html_data)
+
+    return {"acc_0": "TODO", "acc_1": "TODO", "acc_2": "TODO", "MAE": "TODO", "pairs": "TODO"}

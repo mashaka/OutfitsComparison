@@ -80,21 +80,30 @@ def generate_plots_for_experiment(dashboard_config, experiment_dir):
     plot_metrics(experiment_dir, dashboard_config, dashboard_config['loss_plot_name'], 'loss', 'val_loss')
     plot_metrics(experiment_dir, dashboard_config, dashboard_config['acc_plot_name'], 'acc', 'val_acc')
     generate_model_scheme(experiment_dir, dashboard_config)
-    generate_model_results(dashboard_config, experiment_config, experiment_dir)
+    return generate_model_results(dashboard_config, experiment_config, experiment_dir)
 
-def generate_experiments_dir_js(dashboard_config):
+def generate_experiments_dir_js(data):
     """ Generate file experiments_dir.js """
     with open(os.path.join(DASHBOARD_ROOT, 'static', 'js', 'experiments_dir.js'), 'w+') as js_file:
-        js_file.write("experiments_dir = {};".format(dashboard_config['experiments_dir']))
+        js_file.write("experiments_dir = {};".format(data))
 
 def execute():
     """ Execute script """
     with open(DASHBOARD_CONFIG, encoding='utf8') as yaml_file:
         dashboard_config = yaml.load(yaml_file)
-    generate_experiments_dir_js(dashboard_config)
-    for experiment_dir in dashboard_config['experiments_dir']:
-        full_path = os.path.join(EXPERIMENTS_ROOT, experiment_dir)
-        generate_plots_for_experiment(dashboard_config, full_path)
+    data = []
+    for experiment_dir in os.listdir(EXPERIMENTS_ROOT):
+        experiment_dict = {'name': experiment_dir, 'modifications' : []}
+        full_path = os.path.join(EXPERIMENTS_ROOT, experiment_dir, 'results')
+        for modification_dir in os.listdir(full_path):
+            full_modif_path = os.path.join(full_path, modification_dir)
+            results = generate_plots_for_experiment(dashboard_config, full_modif_path)
+            experiment_dict['modifications'].append({
+                'name' : modification_dir,
+                'results': results
+            })
+        data.append(experiment_dict)
+    generate_experiments_dir_js(data)
 
 
 if __name__ == '__main__':

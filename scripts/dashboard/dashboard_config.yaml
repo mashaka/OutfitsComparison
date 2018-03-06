@@ -1,6 +1,5 @@
 # Description: Settings for dashboard
 
-experiments_dir: ['baseline/results/Xception_3', 'baseline/results/autumn_nir', 'baseline/results/Autumn_NIR_retry']
 experiment_config: network_config.yaml
 log_file: model.log
 model_file: model.json

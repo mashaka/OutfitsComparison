@@ -1,1 +1,1 @@
-experiments_dir = ['baseline/results/Xception_3', 'baseline/results/autumn_nir', 'baseline/results/Autumn_NIR_retry'];
+experiments_dir = [{'name': 'baseline', 'modifications': [{'name': 'autumn_nir', 'results': {'acc_0': 'TODO', 'acc_1': 'TODO', 'acc_2': 'TODO', 'MAE': 'TODO', 'pairs': 'TODO'}}, {'name': 'Autumn_NIR_retry', 'results': {'acc_0': 'TODO', 'acc_1': 'TODO', 'acc_2': 'TODO', 'MAE': 'TODO', 'pairs': 'TODO'}}, {'name': 'Xception_3', 'results': {'acc_0': 'TODO', 'acc_1': 'TODO', 'acc_2': 'TODO', 'MAE': 'TODO', 'pairs': 'TODO'}}]}];

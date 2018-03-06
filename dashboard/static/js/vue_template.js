@@ -9,28 +9,33 @@ var app = new Vue({
   data: {
     OVERVIEW: 'Overview',
     current: experiments_dir[0],
+    modification: experiments_dir[0].modifications[0],
     items: experiments_dir
   },
   methods: {
-    setCurrentExperiment: function (item) {
+    setCurrentExperiment: function (item, modif) {
       this.current = item;
+      this.modification = modif;
     }
   },
   computed: {
+    current_dir: function() {
+      return this.current.name + '/results/' + this.modification.name;
+    },
     lossPlotPath: fullPathDecorator(function(){
-      return this.current + '/plots/loss_plot.html';
+      return this.current_dir + '/plots/loss_plot.html';
     }),
     accuracyPlotPath: fullPathDecorator(function(){
-      return this.current + '/plots/acc_plot.html';
+      return this.current_dir + '/plots/acc_plot.html';
     }),
     descriptionPath: fullPathDecorator(function(){
-      return this.current + '/plots/description.html';
+      return this.current_dir + '/plots/description.html';
     }),
     resultMetricsPath: fullPathDecorator(function(){
-      return this.current + '/plots/results.html';
+      return this.current_dir + '/plots/results.html';
     }),
     schemePath: fullPathDecorator(function(){
-      return this.current + '/plots/scheme.png';
+      return this.current_dir + '/plots/scheme.png';
     })
   }
 });
