@@ -13,8 +13,9 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 
 WORKING_DIR = os.path.dirname(__file__)
-DATA_DIR = os.path.join(WORKING_DIR, '..', '..', 'data')
-RESULTS_DIR = os.path.join(WORKING_DIR, 'results')
+ROOT_DIR = os.path.join(WORKING_DIR, '..', '..', '..')
+DATA_DIR = os.path.join(ROOT_DIR, 'data')
+RESULTS_DIR = os.path.join(ROOT_DIR, 'trained_models', 'baseline')
 CHECKPOINTS_DIR_NAME = 'checkpoints'
 
 CONFIG_NAME = 'network_config.yaml'
@@ -33,17 +34,9 @@ tf.set_random_seed(config['tensorflow_seed'])
 from keras.models import Model
 from keras.layers import Dense, GlobalAveragePooling2D
 import keras.callbacks
-from keras.preprocessing.image import ImageDataGenerator
 
-SUPPORTED_MODELS = ['Xception']
-
-# Import correct model for preprocessing
-if config['model_name'] == 'Xception':
-    from keras.applications.xception import preprocess_input
-    print('Import modules for {} model'.format(config['model_name']))
-else:
-    raise ValueError('{} model is not supported. Use one of these models: {}'.format(
-        config['model_name'], SUPPORTED_MODELS))
+from outfitcmp.scripts.utils import SUPPORTED_MODELS, prepare_data_generator
+from outfitcmp.scripts.predict_using_model import predict_using_model
 
 def check_config():
     """ Sanity checks for a config """
@@ -80,29 +73,11 @@ def import_base_model():
         raise ValueError('{} model is not supported. Use one of these models: {}'.format(
             config['model_name'], SUPPORTED_MODELS))
 
-def get_image_size_for_model():
-    """ Return size of an image accepted by given model """
-    if config['model_name'] == 'Xception':
-        return (299, 299)
-    else:
-        raise ValueError('{} model is not supported. Use one of these models: {}'.format(
-            config['model_name'], SUPPORTED_MODELS))
-
-def prepare_data_generator(split_name):
-    """ Create data generator for particular split """
-    datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
-    generator = datagen.flow_from_directory(
-        os.path.join(DATA_DIR, config['data_dir'], split_name),
-        target_size=get_image_size_for_model(),
-        batch_size=config['batch_size'],
-        class_mode='categorical')
-    return generator
-
 def train_model():
     """ Train model, estimate results and save logs """
     print('Start loading data')
-    train_generator = prepare_data_generator('train')
-    validation_generator = prepare_data_generator('validation')
+    train_generator = prepare_data_generator(config, 'train')
+    validation_generator = prepare_data_generator(config, 'validation')
 
     print('Start training')
     start = time.time()
@@ -159,23 +134,7 @@ def train_model():
     with open(os.path.join(experiment_dir, config['logs_file']), 'w') as logs_file:
         logs_file.write(str(ret.history))
     print('Saved model to disk')
-    test_generator = prepare_data_generator('test')
-    # Predict results on test dataset
-    predicted = model.predict_generator(
-        generator=test_generator,
-        steps=len(test_generator)
-    )
-    np.savez(
-        os.path.join(experiment_dir, 'predicted.npz'),
-        pred=predicted
-    )
-    print('Saved predictions')
-    # Estimate
-    loss, acc = model.evaluate_generator(
-        generator=test_generator,
-        steps=len(test_generator)
-    )
-    print('\nTesting loss: {}, acc: {}\n'.format(loss, acc))
+    predict_using_model(experiment_dir, config, model)
     print('Finish working in {}'.format(time.strftime("%H:%M:%S", time.gmtime(time.time() - start))))
     
 def execute():

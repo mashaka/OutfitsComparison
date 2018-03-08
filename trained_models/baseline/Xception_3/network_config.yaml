@@ -24,6 +24,7 @@ metrics: ['accuracy']
 model_file: model.json
 weights_file: model.h5
 logs_file: model.log
+predicted_file: predicted.npz
 
 # For reproducable results
 numpy_seed: 113

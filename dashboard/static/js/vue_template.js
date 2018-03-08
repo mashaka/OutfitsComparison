@@ -1,6 +1,6 @@
 function fullPathDecorator(f) {
   return function() {
-    return '../experiments/' + f.call(this, arguments);
+    return '../trained_models/' + f.call(this, arguments);
   }
 }
 
@@ -20,7 +20,7 @@ var app = new Vue({
   },
   computed: {
     current_dir: function() {
-      return this.current.name + '/results/' + this.modification.name;
+      return this.current.name + '/' + this.modification.name;
     },
     lossPlotPath: fullPathDecorator(function(){
       return this.current_dir + '/plots/loss_plot.html';

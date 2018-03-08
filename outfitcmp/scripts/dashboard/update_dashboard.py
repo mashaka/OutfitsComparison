@@ -13,9 +13,9 @@ from generate_desc_markdown import generate_description_markdown
 from generate_model_results import generate_model_results
 
 WORKING_DIR = os.path.dirname(__file__)
-ROOT_DIR = os.path.join(WORKING_DIR, '..', '..')
+ROOT_DIR = os.path.join(WORKING_DIR, '..', '..', '..')
 DASHBOARD_ROOT = os.path.join(ROOT_DIR, 'dashboard')
-EXPERIMENTS_ROOT = os.path.join(ROOT_DIR, 'experiments')
+EXPERIMENTS_ROOT = os.path.join(ROOT_DIR, 'trained_models')
 DASHBOARD_CONFIG = os.path.join(WORKING_DIR, 'dashboard_config.yaml')
 
 def generate_model_scheme(experiment_dir, dashboard_config):
@@ -94,7 +94,7 @@ def execute():
     data = []
     for experiment_dir in os.listdir(EXPERIMENTS_ROOT):
         experiment_dict = {'name': experiment_dir, 'modifications' : []}
-        full_path = os.path.join(EXPERIMENTS_ROOT, experiment_dir, 'results')
+        full_path = os.path.join(EXPERIMENTS_ROOT, experiment_dir)
         for modification_dir in os.listdir(full_path):
             full_modif_path = os.path.join(full_path, modification_dir)
             results = generate_plots_for_experiment(dashboard_config, full_modif_path)
