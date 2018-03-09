@@ -34,12 +34,71 @@
                                 <li v-for="modif in item.modifications" @click="setCurrentExperiment(item, modif)" ><a>{{ modif.name }}</a></li>
                             </ul>
                         </li>
-                                
+                        <li :class="{
+                            'link--active': current === ARTICLES 
+                            }" class="link" @click="setCurrentExperiment(ARTICLES)">
+                                <a>
+                                    {{ ARTICLES }}
+                                </a>
+                        </li>
+
+                        <li :class="{
+                            'link--active': current === DATASETS 
+                            }" class="link" @click="setCurrentExperiment(DATASETS)">
+                                <a>
+                                    {{ DATASETS }}
+                                </a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div  v-if="current != OVERVIEW">
+        
+
+        <div v-if="current === OVERVIEW">
+            <div class="container overview-tabels">
+                <div class="row justify-content-center">
+                    <div class="col col-lg-12">
+                    <table class="table table-bordered experiments-list">
+                    <thead>
+                        <tr>
+                        <th>Experiment</th>
+                        <th>1-10 acc</th>
+                        <th>1-10 acc, gap 1</th>
+                        <th>1-10 acc, gap 1</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
+                        <th>MAE</th>
+                        <th>Corr. pairs</th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="item in items">
+                        <tr v-for="modif in item.modifications">
+                            <td>{{ item.name + " -> " + modif.name }}</td>
+                            <td>{{ modif.results.acc_0 }}</td>
+                            <td>{{ modif.results.acc_1 }}</td>
+                            <td>{{ modif.results.acc_2 }}</td>
+                            <td>{{ modif.results.precision }}</td>
+                            <td>{{ modif.results.recall }}</td>
+                            <td>{{ modif.results.MAE }}</td>
+                            <td>{{ modif.results.pairs }}</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-else-if="current === ARTICLES" class="mindmaeister-container">
+            <iframe class="mindmaeister-container" frameborder="0" src="https://www.mindmeister.com/maps/public_map_shell/1000323584/_?width=600&height=400&z=auto" scrolling="no">Your browser is not able to display frames. Please visit <a href="https://www.mindmeister.com/1000323584/_" target="_blank">Существующие исследования</a> on MindMeister.</iframe>
+        </div>
+
+        <div v-else-if="current === DATASETS" class="mindmaeister-container">
+            <iframe class="mindmaeister-container" frameborder="0" src="https://www.mindmeister.com/maps/public_map_shell/1000365042/_?width=auto&height=auto&z=auto" scrolling="no">Your browser is not able to display frames. Please visit <a href="https://www.mindmeister.com/1000365042/_" target="_blank">Существующие датасеты</a> on MindMeister.</iframe>
+        </div>
+
+        <div v-else>
             <div class="container-fluid">     
                 <div class="row description-row">
                     <div class="col-sm-6 col-md-4">
@@ -100,41 +159,6 @@
                         </div>
                     </div>
                 </div>
-                </div>
-            </div>
-        </div>
-
-        <div v-else>
-            <div class="container overview-tabels">
-                <div class="row justify-content-center">
-                    <div class="col col-lg-12">
-                    <table class="table table-bordered experiments-list">
-                    <thead>
-                        <tr>
-                        <th>Experiment</th>
-                        <th>1-10 acc</th>
-                        <th>1-10 acc, gap 1</th>
-                        <th>1-10 acc, gap 1</th>
-                        <th>Precision</th>
-                        <th>Recall</th>
-                        <th>MAE</th>
-                        <th>Corr. pairs</th>
-                        </tr>
-                    </thead>
-                    <tbody v-for="item in items">
-                        <tr v-for="modif in item.modifications">
-                            <td>{{ item.name + " -> " + modif.name }}</td>
-                            <td>{{ modif.results.acc_0 }}</td>
-                            <td>{{ modif.results.acc_1 }}</td>
-                            <td>{{ modif.results.acc_2 }}</td>
-                            <td>{{ modif.results.precision }}</td>
-                            <td>{{ modif.results.recall }}</td>
-                            <td>{{ modif.results.MAE }}</td>
-                            <td>{{ modif.results.pairs }}</td>
-                        </tr>
-                    </tbody>
-                    </table>
-                    </div>
                 </div>
             </div>
         </div>

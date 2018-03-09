@@ -8,6 +8,9 @@ var app = new Vue({
   el: '#app',
   data: {
     OVERVIEW: 'Overview',
+    PLAN: 'Plan',
+    ARTICLES: 'Articles',
+    DATASETS: 'Datasets',
     current: experiments_dir[0],
     modification: experiments_dir[0].modifications[0],
     items: experiments_dir
