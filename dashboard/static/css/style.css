@@ -13,8 +13,10 @@
     cursor: pointer;
 }
 
-.experimentsList{
+.experiments-list {
     background-color: #fff;
+    max-width: 1400px;
+    align-self: center;
 }
 
 .description-row {
@@ -35,4 +37,9 @@ iframe {
 
 img {
     max-width: 100%;
+}
+
+.overview-tabels {
+    display: flex;
+    justify-content: center;
 }

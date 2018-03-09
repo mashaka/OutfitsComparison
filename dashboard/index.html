@@ -105,16 +105,18 @@
         </div>
 
         <div v-else>
-            <div class="container">
+            <div class="container overview-tabels">
                 <div class="row justify-content-center">
                     <div class="col col-lg-12">
-                    <table class="table table-bordered experimentsList">
+                    <table class="table table-bordered experiments-list">
                     <thead>
                         <tr>
                         <th>Experiment</th>
                         <th>1-10 acc</th>
                         <th>1-10 acc, gap 1</th>
                         <th>1-10 acc, gap 1</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
                         <th>MAE</th>
                         <th>Corr. pairs</th>
                         </tr>
@@ -125,6 +127,8 @@
                             <td>{{ modif.results.acc_0 }}</td>
                             <td>{{ modif.results.acc_1 }}</td>
                             <td>{{ modif.results.acc_2 }}</td>
+                            <td>{{ modif.results.precision }}</td>
+                            <td>{{ modif.results.recall }}</td>
                             <td>{{ modif.results.MAE }}</td>
                             <td>{{ modif.results.pairs }}</td>
                         </tr>

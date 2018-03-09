@@ -4,22 +4,26 @@ Description: Generate html with experiment's results using markdown format
 import os
 import markdown2
 
-from generate_desc_markdown import decorated_format
+from outfitcmp.scripts.dashboard.generate_desc_markdown import decorated_format
+from outfitcmp.scripts.dashboard.estimate_model import estimate
 
 WORKING_DIR = os.path.dirname(__file__)
 DESCRIPTION_TEMPLATE = os.path.join(WORKING_DIR, 'results_template.txt')
 
 def generate_model_results(dashboard_config, experiment_config, experiment_dir):
     """ Generate an experiment's results """
+    results = estimate(experiment_dir)
     with open(DESCRIPTION_TEMPLATE) as md_file:
         data = md_file.read()
     data = decorated_format(
         data,
-        "TODO",
-        "TODO",
-        "TODO",
-        "TODO",
-        "TODO"
+        results['acc_0'],
+        results['acc_1'],
+        results['acc_2'],
+        results['precision'],
+        results['recall'],
+        results['MAE'],
+        results['pairs']
     )
     html_data = markdown2.markdown(data, extras=["tables", "wiki-tables"])
     result_file = os.path.join(
@@ -30,4 +34,4 @@ def generate_model_results(dashboard_config, experiment_config, experiment_dir):
     with open(result_file, 'w+') as html_file:
         html_file.write(html_data)
 
-    return {"acc_0": "TODO", "acc_1": "TODO", "acc_2": "TODO", "MAE": "TODO", "pairs": "TODO"}
+    return results

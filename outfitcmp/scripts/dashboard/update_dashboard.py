@@ -9,8 +9,8 @@ import plotly.graph_objs as go
 from keras.models import model_from_json
 from keras.utils.vis_utils import plot_model
 
-from generate_desc_markdown import generate_description_markdown
-from generate_model_results import generate_model_results
+from outfitcmp.scripts.dashboard.generate_desc_markdown import generate_description_markdown
+from outfitcmp.scripts.dashboard.generate_model_results import generate_model_results
 
 WORKING_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.join(WORKING_DIR, '..', '..', '..')
