@@ -1,9 +1,9 @@
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: Autumn_NIR_retry
+experiment_name: More custom layers
 # Description
-description: Repeat an experiment for the autumn NIR control on a dataset with cleaned exif data and give it a chance to finish a training.
+description: Add Dropout and Dense layers 
 
 # Pretrained model name
 model_name: Xception
@@ -14,8 +14,7 @@ number_of_classes: 10
 # Network training params
 batch_size: 32
 num_epoches: 200
-#num_epoches: 3
-number_of_dense: 1
+# num_epoches: 3
 loss: categorical_crossentropy
 optimizer: rmsprop
 metrics: ['accuracy']
