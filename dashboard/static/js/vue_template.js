@@ -38,7 +38,7 @@ var app = new Vue({
       return this.current_dir + '/plots/results.html';
     }),
     schemePath: fullPathDecorator(function(){
-      return this.current_dir + '/plots/scheme.png';
+      return this.current_dir + '/plots/scheme.svg';
     })
   }
 });
