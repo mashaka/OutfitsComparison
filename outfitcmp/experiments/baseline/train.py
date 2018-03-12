@@ -32,7 +32,7 @@ import tensorflow as tf
 tf.set_random_seed(config['tensorflow_seed'])
 ###################################
 from keras.models import Model
-from keras.layers import Dense, GlobalAveragePooling2D
+from keras.layers import Dense, GlobalAveragePooling2D, Dropout
 import keras.callbacks
 
 from outfitcmp.scripts.utils import SUPPORTED_MODELS, prepare_data_generator
@@ -86,7 +86,9 @@ def train_model():
     # Add a global spatial average pooling layer
     x = base_model.output
     x = GlobalAveragePooling2D()(x)
-    # Add a fully-connected layer
+    # Add a custom layers
+    x = Dense(1024, activation='relu')(x)
+    x = Dropout(0.5)(x)
     x = Dense(1024, activation='relu')(x)
     # And a logistic layer
     predictions = Dense(config['number_of_classes'], activation='softmax')(x)
