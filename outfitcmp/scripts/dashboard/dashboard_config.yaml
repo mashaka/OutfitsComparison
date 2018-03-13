@@ -10,4 +10,3 @@ description_name: description.html
 results_name: results.html
 loss_plot_name: loss_plot.html
 acc_plot_name: acc_plot.html
-scheme_name: scheme.png

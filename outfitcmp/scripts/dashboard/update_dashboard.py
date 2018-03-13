@@ -18,23 +18,6 @@ DASHBOARD_ROOT = os.path.join(ROOT_DIR, 'dashboard')
 EXPERIMENTS_ROOT = os.path.join(ROOT_DIR, 'trained_models')
 DASHBOARD_CONFIG = os.path.join(WORKING_DIR, 'dashboard_config.yaml')
 
-def generate_model_scheme(experiment_dir, dashboard_config):
-    """
-    Save a model's architecture as image 
-    """
-    model_path = os.path.join(
-        experiment_dir,
-        dashboard_config['model_file']
-    )
-    scheme_path = os.path.join(
-        experiment_dir,
-        dashboard_config['plots_dir'],
-        dashboard_config['scheme_name']
-    )
-    with open(model_path, 'r') as json_file:
-        model = model_from_json(json_file.read())
-    plot_model(model, to_file=scheme_path, show_shapes=True)
-
 def produce_graph_data(key, graph):
     """
     Extract the data for a graph
@@ -79,7 +62,6 @@ def generate_plots_for_experiment(dashboard_config, experiment_dir):
     generate_description_markdown(dashboard_config, experiment_config, experiment_dir)
     plot_metrics(experiment_dir, dashboard_config, dashboard_config['loss_plot_name'], 'loss', 'val_loss')
     plot_metrics(experiment_dir, dashboard_config, dashboard_config['acc_plot_name'], 'acc', 'val_acc')
-    generate_model_scheme(experiment_dir, dashboard_config)
     return generate_model_results(dashboard_config, experiment_config, experiment_dir)
 
 def generate_experiments_dir_js(data):
