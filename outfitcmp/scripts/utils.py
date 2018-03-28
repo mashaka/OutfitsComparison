@@ -2,6 +2,7 @@
 Description: Utility functions
 """
 import os
+import numpy as np
 from keras.preprocessing.image import ImageDataGenerator
 
 WORKING_DIR = os.path.dirname(__file__)
@@ -19,9 +20,23 @@ def get_image_size_for_model(config):
             config['model_name'], SUPPORTED_MODELS))
 
 
-def regression_flow_from_directory(flow_from_directory_gen, list_of_values):
+def regression_flow_from_directory(flow_from_directory_gen, dict_of_values):
     for x, y in flow_from_directory_gen:
-        yield x, list_of_values[y]
+        y = np.array([dict_of_values[y_i] for y_i in y])
+        yield x, y
+
+
+class GeneratorLen(object):
+    def __init__(self, gen, length, classes):
+        self.gen = gen
+        self.length = length
+        self.classes = classes
+
+    def __len__(self): 
+        return self.length
+
+    def getGenerator(self):
+        return self.gen
 
 
 def prepare_data_generator(config, split_name, needShuffle=True, isRegression=False):
@@ -42,8 +57,12 @@ def prepare_data_generator(config, split_name, needShuffle=True, isRegression=Fa
             batch_size=config['batch_size'],
             shuffle=needShuffle,
             class_mode='sparse')
-        list_of_values = map(int, os.listdir(data_dir))
-        generator = regression_flow_from_directory(flow_from_directory_gen, list_of_values)
+        dict_of_values = {value: int(key) for key, value in flow_from_directory_gen.class_indices.items()}
+        generator = regression_flow_from_directory(flow_from_directory_gen, dict_of_values)
+        generator = GeneratorLen(
+            generator, 
+            len(flow_from_directory_gen), 
+            list(map(int, flow_from_directory_gen.classes)))
     else:
         generator = datagen.flow_from_directory(
             data_dir,
@@ -51,4 +70,5 @@ def prepare_data_generator(config, split_name, needShuffle=True, isRegression=Fa
             batch_size=config['batch_size'],
             shuffle=needShuffle,
             class_mode='categorical')
+        generator = GeneratorLen(generator, len(generator))
     return generator

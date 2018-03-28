@@ -35,7 +35,7 @@ def predict_using_model(experiment_dir, config, model, _isRegression=False):
     """ Predict using a trained model save predictions along with true values """
     test_generator = prepare_data_generator(config, 'test', needShuffle=False, isRegression=_isRegression)
     predicted = model.predict_generator(
-        generator=test_generator,
+        generator=test_generator.getGenerator(),
         steps=len(test_generator)
     )
     y_true = test_generator.classes
@@ -46,14 +46,20 @@ def predict_using_model(experiment_dir, config, model, _isRegression=False):
     )
     print('Saved predictions')
     # Estimate
-    loss, metric = model.evaluate_generator(
-        generator=test_generator,
-        steps=len(test_generator)
-    )
-    if _isRegression:
+    if not _isRegression:
+        loss, metric = model.evaluate_generator(
+            generator=test_generator.getGenerator(),
+            steps=len(test_generator)
+        )
+    else:
+        loss, mse, mae = model.evaluate_generator(
+            generator=test_generator.getGenerator(),
+            steps=len(test_generator)
+        )
+    if not _isRegression:
         print('\nTesting loss: {}, acc: {}\n'.format(loss, metric))
     else:
-        print('\nTesting loss: {}, mse: {}\n'.format(loss, metric))
+        print('\nTesting loss: {}, mse: {}, mae: {}\n'.format(loss, mse, mae))
 
 def predict_using_saved_model(experiment_dir):
     """ Predict using a trained model in a given folder and save predictions along with true values """

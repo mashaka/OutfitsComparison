@@ -8,8 +8,8 @@ description: Change problem type to regression
 # Pretrained model name
 model_name: Xception
 
-data_dir: 144k_flow_exif
-number_of_classes: 10
+data_dir: 144k_flow
+number_of_classes: 17
 
 # Network training params
 batch_size: 32
