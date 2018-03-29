@@ -54,7 +54,6 @@
             </div>
         </div>
         
-
         <div v-if="current === OVERVIEW">
             <div class="container overview-tabels">
                 <div class="row justify-content-center">
@@ -69,6 +68,7 @@
                         <th>Precision</th>
                         <th>Recall</th>
                         <th>MAE</th>
+                        <th>MSE</th>
                         <th>Corr. pairs</th>
                         </tr>
                     </thead>
@@ -81,6 +81,7 @@
                             <td>{{ modif.results.precision }}</td>
                             <td>{{ modif.results.recall }}</td>
                             <td>{{ modif.results.MAE }}</td>
+                            <td>{{ modif.results.MSE }}</td>
                             <td>{{ modif.results.pairs }}</td>
                         </tr>
                     </tbody>
@@ -135,30 +136,58 @@
                     </div>
                 </div>       
                 <div class="row plots-row">
-                <div class="col-sm-6">
-                    <div class="chart-wrapper">
-                        <div class="chart-title">
-                            Accuracy
+                    <div class="col-sm-6">
+                        <div class="chart-wrapper">
+                            <div class="chart-title">
+                                Loss
+                            </div>
+                            <div class="chart-stage">
+                                <iframe class="plots-row" frameborder="0" scrolling="yes" :src="lossPlotPath"></iframe>
+                            </div>
                         </div>
-                        <div class="chart-stage">
-                            <div id="grid-1-1">
-                                <div>
-                                    <iframe class="plots-row" frameborder="0" scrolling="yes" :src="accuracyPlotPath"></iframe>
+                    </div>
+                    <div class="col-sm-6" v-if="!isRegression">
+                        <div class="chart-wrapper">
+                            <div class="chart-title">
+                                Accuracy
+                            </div>
+                            <div class="chart-stage">
+                                <div id="grid-1-1">
+                                    <div>
+                                        <iframe class="plots-row" frameborder="0" scrolling="yes" :src="accuracyPlotPath"></iframe>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="chart-wrapper">
-                        <div class="chart-title">
-                            Loss
-                        </div>
-                        <div class="chart-stage">
-                            <iframe class="plots-row" frameborder="0" scrolling="yes" :src="lossPlotPath"></iframe>
+                    <div class="col-sm-6" v-if="isRegression">
+                        <div class="chart-wrapper">
+                            <div class="chart-title">
+                                MAE
+                            </div>
+                            <div class="chart-stage">
+                                <div id="grid-1-1">
+                                    <div>
+                                        <iframe class="plots-row" frameborder="0" scrolling="yes" :src="maePlotPath"></iframe>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-sm-6" v-if="isRegression">
+                        <div class="chart-wrapper">
+                            <div class="chart-title">
+                                MSE
+                            </div>
+                            <div class="chart-stage">
+                                <div id="grid-1-1">
+                                    <div>
+                                        <iframe class="plots-row" frameborder="0" scrolling="yes" :src="msePlotPath"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

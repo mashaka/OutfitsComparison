@@ -23,6 +23,7 @@ def generate_model_results(dashboard_config, experiment_config, experiment_dir):
         results['precision'],
         results['recall'],
         results['MAE'],
+        results['MSE'],
         results['pairs']
     )
     html_data = markdown2.markdown(data, extras=["tables", "wiki-tables"])

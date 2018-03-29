@@ -4,8 +4,9 @@ Description: Estimate trained model
 import os
 import yaml
 import numpy as np
+from scipy import stats
 
-from sklearn.metrics import accuracy_score, precision_score, recall_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, mean_absolute_error, mean_squared_error
 
 WORKING_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.join(WORKING_DIR, '..', '..', '..')
@@ -24,8 +25,15 @@ def accuracy_with_gap(y_true, y_pred, gap):
     true_predictions = 0
     for i in range(len(y_pred)):
         if abs(y_pred[i] - y_true[i]) <= gap:
-             true_predictions += 1
+            true_predictions += 1
     return true_predictions/len(y_true)
+
+def class_from_regression(y_pred):
+    """ Classification accuracy allowing error in gap classes """
+    y_pred_class = []
+    for y in y_pred:
+        y_pred_class.append(int(round(min(max(1, y), 10))))
+    return np.array(y_pred_class)
 
 def estimate(experiment_dir):
     """
@@ -35,14 +43,22 @@ def estimate(experiment_dir):
         config = yaml.load(yaml_file)
     pred, y_true = load_predictions(experiment_dir, config)
     y_pred = pred.argmax(axis=-1)
-    print('Loaded predictions')
+    print('Loaded predictions for {}'.format(config['experiment_name']))
+    y_pred_class = y_pred
+    if config['is_regression']:
+        y_pred_class = class_from_regression(y_pred)
+        print(y_pred_class.shape, y_pred_class[:20])
+        print(y_pred.shape, y_pred[:20])
+        print(y_true.shape, y_pred[:20])
+        print(stats.describe(y_pred_class))
     results = {
-        "precision": precision_score(y_true, y_pred, average='macro'),
-        "recall": recall_score(y_true, y_pred, average='macro'),
-        "acc_0": accuracy_score(y_true, y_pred),
-        "acc_1": accuracy_with_gap(y_true, y_pred, 1),
-        "acc_2": accuracy_with_gap(y_true, y_pred, 2),
-        "MAE": "TODO",
+        "precision": precision_score(y_true, y_pred_class, average='macro'),
+        "recall": recall_score(y_true, y_pred_class, average='macro'),
+        "acc_0": accuracy_score(y_true, y_pred_class),
+        "acc_1": accuracy_with_gap(y_true, y_pred_class, 1),
+        "acc_2": accuracy_with_gap(y_true, y_pred_class, 2),
+        "MAE": mean_absolute_error(y_true, y_pred),
+        "MSE": mean_squared_error(y_true, y_pred),
         "pairs": "TODO"
     }
     for key, value in results.items():

@@ -61,7 +61,21 @@ def generate_plots_for_experiment(dashboard_config, experiment_dir):
         pass
     generate_description_markdown(dashboard_config, experiment_config, experiment_dir)
     plot_metrics(experiment_dir, dashboard_config, dashboard_config['loss_plot_name'], 'loss', 'val_loss')
-    plot_metrics(experiment_dir, dashboard_config, dashboard_config['acc_plot_name'], 'acc', 'val_acc')
+    if experiment_config['is_regression']:
+        plot_metrics(
+            experiment_dir,
+            dashboard_config,
+            dashboard_config['mae_plot_name'],
+            'mean_absolute_error', 'val_mean_absolute_error'
+        )
+        plot_metrics(
+            experiment_dir,
+            dashboard_config,
+            dashboard_config['mse_plot_name'], 
+            'mean_squared_error', 'val_mean_squared_error'
+        )
+    else:
+        plot_metrics(experiment_dir, dashboard_config, dashboard_config['acc_plot_name'], 'acc', 'val_acc')
     return generate_model_results(dashboard_config, experiment_config, experiment_dir)
 
 def generate_experiments_dir_js(data):
@@ -80,8 +94,12 @@ def execute():
         for modification_dir in os.listdir(full_path):
             full_modif_path = os.path.join(full_path, modification_dir)
             results = generate_plots_for_experiment(dashboard_config, full_modif_path)
+            with open(os.path.join(full_modif_path, dashboard_config['experiment_config']), 
+                    encoding='utf8') as yaml_file:
+                experiment_config = yaml.load(yaml_file)
             experiment_dict['modifications'].append({
                 'name' : modification_dir,
+                'is_regression' : str(experiment_config['is_regression']),
                 'results': results
             })
         data.append(experiment_dict)

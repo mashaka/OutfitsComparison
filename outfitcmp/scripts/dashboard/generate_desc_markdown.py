@@ -27,6 +27,7 @@ def generate_description_markdown(dashboard_config, experiment_config, experimen
         experiment_config['experiment_name'],
         experiment_config['description'],
         experiment_config['data_dir'],
+        'Regression' if experiment_config['is_regression'] else 'Classification',
         experiment_config['loss'],
         experiment_config['optimizer'],
         experiment_config['num_epoches'],

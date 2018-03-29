@@ -4,6 +4,8 @@
 
 **Used dataset:** {}
 
+**Type:** {}
+
 **Loss:** {}
 
 **Optimizer:** {}

@@ -6,4 +6,5 @@
 | Precision                     | {}    |
 | Recall                        | {}    |
 | MAE, Regression               | {}    |
+| MSE, Regression               | {}    |
 | Correctly estimated pairs     | {}    |

@@ -25,11 +25,20 @@ var app = new Vue({
     current_dir: function() {
       return this.current.name + '/' + this.modification.name;
     },
-    lossPlotPath: fullPathDecorator(function(){
+    lossPlotPath: fullPathDecorator(function() {
       return this.current_dir + '/plots/loss_plot.html';
     }),
+    isRegression: function() {
+      return this.modification.is_regression === 'True';
+    },
     accuracyPlotPath: fullPathDecorator(function(){
       return this.current_dir + '/plots/acc_plot.html';
+    }),
+    maePlotPath: fullPathDecorator(function(){
+      return this.current_dir + '/plots/mae_plot.html';
+    }),
+    msePlotPath: fullPathDecorator(function(){
+      return this.current_dir + '/plots/mse_plot.html';
     }),
     descriptionPath: fullPathDecorator(function(){
       return this.current_dir + '/plots/description.html';

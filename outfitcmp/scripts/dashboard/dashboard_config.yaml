@@ -10,3 +10,5 @@ description_name: description.html
 results_name: results.html
 loss_plot_name: loss_plot.html
 acc_plot_name: acc_plot.html
+mae_plot_name: mae_plot.html
+mse_plot_name: mse_plot.html
