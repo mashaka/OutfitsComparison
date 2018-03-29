@@ -21,8 +21,6 @@ CHECKPOINTS_DIR_NAME = 'checkpoints'
 CONFIG_NAME = 'network_config.yaml'
 CONFIG_FILE = os.path.join(WORKING_DIR, CONFIG_NAME)
 
-IS_REGRESSION = True
-
 # Load params from config
 with open(CONFIG_FILE, encoding='utf8') as yaml_file:
     config = yaml.load(yaml_file)
@@ -78,8 +76,8 @@ def import_base_model():
 def train_model():
     """ Train model, estimate results and save logs """
     print('Start loading data')
-    train_generator = prepare_data_generator(config, 'train', isRegression=IS_REGRESSION)
-    validation_generator = prepare_data_generator(config, 'validation', isRegression=IS_REGRESSION)
+    train_generator = prepare_data_generator(config, 'train', isRegression=config['is_regression'])
+    validation_generator = prepare_data_generator(config, 'validation', isRegression=config['is_regression'])
 
     print('Start training')
     start = time.time()
@@ -136,7 +134,7 @@ def train_model():
     with open(os.path.join(experiment_dir, config['logs_file']), 'w') as logs_file:
         logs_file.write(str(ret.history))
     print('Saved model to disk')
-    predict_using_model(experiment_dir, config, model, _isRegression=IS_REGRESSION)
+    predict_using_model(experiment_dir, config, model, _isRegression=config['is_regression'])
     print('Finish working in {}'.format(time.strftime("%H:%M:%S", time.gmtime(time.time() - start))))
     
 def execute():
