@@ -8,6 +8,7 @@ description: Add Dense layer to fixed Xception model
 
 # Pretrained model name
 model_name: Xception
+is_regression: False
 
 data_dir: 144k_flow
 number_of_classes: 10

@@ -7,6 +7,7 @@ description: Repeat an experiment for the autumn NIR control on a dataset with c
 
 # Pretrained model name
 model_name: Xception
+is_regression: False
 
 data_dir: 144k_flow_exif
 number_of_classes: 10
