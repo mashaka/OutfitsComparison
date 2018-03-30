@@ -88,6 +88,12 @@ def train_model():
     x = GlobalAveragePooling2D()(x)
     # Add a custom layers
     x = Dense(1024, activation='relu')(x)
+    x = Dropout(0.5)(x)
+    x = Dense(512, activation='relu')(x)
+    x = Dropout(0.5)(x)
+    x = Dense(256, activation='relu')(x)
+    x = Dropout(0.5)(x)
+    x = Dense(128, activation='relu')(x)
     # And a logistic layer
     predictions = Dense(1)(x)
 
