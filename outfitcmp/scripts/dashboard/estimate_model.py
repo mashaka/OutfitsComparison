@@ -41,16 +41,12 @@ def estimate(experiment_dir):
     """
     with open(os.path.join(experiment_dir, CONFIG_NAME), encoding='utf8') as yaml_file:
         config = yaml.load(yaml_file)
-    pred, y_true = load_predictions(experiment_dir, config)
-    y_pred = pred.argmax(axis=-1)
+    y_pred, y_true = load_predictions(experiment_dir, config)
     print('Loaded predictions for {}'.format(config['experiment_name']))
     y_pred_class = y_pred
     if config['is_regression']:
+        y_pred = y_pred.flatten()
         y_pred_class = class_from_regression(y_pred)
-        print(y_pred_class.shape, y_pred_class[:20])
-        print(y_pred.shape, y_pred[:20])
-        print(y_true.shape, y_pred[:20])
-        print(stats.describe(y_pred_class))
     results = {
         "precision": precision_score(y_true, y_pred_class, average='macro'),
         "recall": recall_score(y_true, y_pred_class, average='macro'),
