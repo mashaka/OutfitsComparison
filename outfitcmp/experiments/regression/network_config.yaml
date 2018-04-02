@@ -25,6 +25,7 @@ metrics: ['mean_squared_error', 'mean_absolute_error']
 
 # Names for log files
 model_file: model.h5
+architecture_file: model.json
 logs_file: model.log
 predicted_file: predicted.npz
 

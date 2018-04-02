@@ -119,6 +119,10 @@ def train_model():
     # Stop if we stop learning
     earlystop_cb = keras.callbacks.EarlyStopping(monitor='val_loss', patience=50, min_delta=0.00001)
 
+    model_json = model.to_json()
+    with open(os.path.join(experiment_dir, config['architecture_file']), 'w') as json_file:
+        json_file.write(model_json)
+
     # Train model
     ret = model.fit_generator(
         generator=train_generator.getGenerator(),
