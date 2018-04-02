@@ -1,21 +1,22 @@
+# Author: Maria Sandrikova
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: Autumn_NIR_retry
+experiment_name: 1 - Autumn NIR
 # Description
-description: Repeat an experiment for the autumn NIR control on a dataset with cleaned exif data and give it a chance to finish a training.
+description: Add Dense layer to fixed Xception model
 
 # Pretrained model name
 model_name: Xception
 is_regression: False
 
-data_dir: 144k_flow_exif
+data_dir: 144k_flow
 number_of_classes: 10
 
 # Network training params
 batch_size: 32
-num_epoches: 200
-#num_epoches: 3
+#num_epoches: 300
+num_epoches: 20
 number_of_dense: 1
 loss: categorical_crossentropy
 optimizer: rmsprop

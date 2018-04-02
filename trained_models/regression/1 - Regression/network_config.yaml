@@ -1,24 +1,24 @@
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: More custom layers
+experiment_name: 1 - Regression
 # Description
-description: Add Dropout and Dense layers 
+description: Change problem type to regression
 
 # Pretrained model name
 model_name: Xception
-is_regression: False
+is_regression: True
 
-data_dir: 144k_flow_exif
-number_of_classes: 10
+data_dir: 144k_flow
+number_of_classes: 17
 
 # Network training params
 batch_size: 32
 num_epoches: 200
 # num_epoches: 3
-loss: categorical_crossentropy
+loss: mean_squared_error
 optimizer: rmsprop
-metrics: ['accuracy']
+metrics: ['mean_squared_error', 'mean_absolute_error']
 
 # Names for log files
 model_file: model.json

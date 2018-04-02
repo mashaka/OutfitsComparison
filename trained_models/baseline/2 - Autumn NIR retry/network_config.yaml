@@ -1,24 +1,25 @@
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: Regression
+experiment_name: 2 - Autumn NIR retry
 # Description
-description: Change problem type to regression
+description: Repeat an experiment for the autumn NIR control on a dataset with cleaned exif data and give it a chance to finish a training.
 
 # Pretrained model name
 model_name: Xception
-is_regression: True
+is_regression: False
 
-data_dir: 144k_flow
-number_of_classes: 17
+data_dir: 144k_flow_exif
+number_of_classes: 10
 
 # Network training params
 batch_size: 32
 num_epoches: 200
-# num_epoches: 3
-loss: mean_squared_error
+#num_epoches: 3
+number_of_dense: 1
+loss: categorical_crossentropy
 optimizer: rmsprop
-metrics: ['mean_squared_error', 'mean_absolute_error']
+metrics: ['accuracy']
 
 # Names for log files
 model_file: model.json

@@ -1,23 +1,21 @@
-# Author: Maria Sandrikova
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: Autumn NIR control
+experiment_name: 3 - More custom layers
 # Description
-description: Add Dense layer to fixed Xception model
+description: Add Dropout and Dense layers 
 
 # Pretrained model name
 model_name: Xception
 is_regression: False
 
-data_dir: 144k_flow
+data_dir: 144k_flow_exif
 number_of_classes: 10
 
 # Network training params
 batch_size: 32
-#num_epoches: 300
-num_epoches: 20
-number_of_dense: 1
+num_epoches: 200
+# num_epoches: 3
 loss: categorical_crossentropy
 optimizer: rmsprop
 metrics: ['accuracy']
