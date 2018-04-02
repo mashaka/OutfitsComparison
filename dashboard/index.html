@@ -91,12 +91,12 @@
             </div>
         </div>
 
-        <div v-else-if="current === ARTICLES" class="mindmeister-container">
-            <iframe class="mindmeister-container" frameborder="0" src="https://www.mindmeister.com/maps/public_map_shell/1000323584/_?width=600&height=400&z=auto" scrolling="no">Your browser is not able to display frames. Please visit <a href="https://www.mindmeister.com/1000323584/_" target="_blank">Существующие исследования</a> on MindMeister.</iframe>
+        <div v-else-if="current === ARTICLES">
+            <img class="mindmeister-image" src="static/img/articles.png" alt="Articles">
         </div>
 
-        <div v-else-if="current === DATASETS" class="mindmeister-container">
-            <iframe class="mindmeister-container" frameborder="0" src="https://www.mindmeister.com/maps/public_map_shell/1000365042/_?width=auto&height=auto&z=auto" scrolling="no">Your browser is not able to display frames. Please visit <a href="https://www.mindmeister.com/1000365042/_" target="_blank">Существующие датасеты</a> on MindMeister.</iframe>
+        <div v-else-if="current === DATASETS">
+            <img class="mindmeister-image" src="static/img/datasets.png" alt="Datasets">
         </div>
 
         <div v-else>
