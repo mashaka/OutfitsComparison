@@ -118,11 +118,6 @@ def train_model():
 
     # Stop if we stop learning
     earlystop_cb = keras.callbacks.EarlyStopping(monitor='val_loss', patience=50, min_delta=0.00001)
-    
-    # Serialize model in JSON
-    model_json = model.to_json()
-    with open(os.path.join(experiment_dir, config['model_file']), 'w') as json_file:
-        json_file.write(model_json)
 
     # Train model
     ret = model.fit_generator(
@@ -135,7 +130,7 @@ def train_model():
         callbacks=[check_cb, earlystop_cb])
 
     # Serialize weights in HDF5
-    model.save_weights(os.path.join(experiment_dir, config['weights_file']))
+    model.save(os.path.join(experiment_dir, config['model_file']))
     # Save logs
     with open(os.path.join(experiment_dir, config['logs_file']), 'w') as logs_file:
         logs_file.write(str(ret.history))

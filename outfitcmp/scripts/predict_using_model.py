@@ -18,6 +18,8 @@ CONFIG_NAME = 'network_config.yaml'
 def load_model(experiment_dir, config):
     """
     Load serialized model
+    TODO: Now we are saving models in a different way storing weights 
+        and architecture in one file instead of two. Need to adapt this code accordingly  
     """
     with open(os.path.join(experiment_dir, config['model_file'])) as json_file:
         loaded_model_json = json_file.read()
