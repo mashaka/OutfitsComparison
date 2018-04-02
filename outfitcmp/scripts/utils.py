@@ -27,11 +27,12 @@ def regression_flow_from_directory(flow_from_directory_gen, dict_of_values):
 
 
 class GeneratorLen(object):
-    def __init__(self, gen, length, classes, class_indices):
+    def __init__(self, gen, length, classes, class_indices, filenames):
         self.gen = gen
         self.length = length
         self.classes = classes
         self.class_indices = class_indices
+        self.filenames = filenames
 
     def __len__(self): 
         return self.length
@@ -64,7 +65,8 @@ def prepare_data_generator(config, split_name, needShuffle=True, isRegression=Fa
             generator, 
             len(flow_from_directory_gen), 
             list(map(int, flow_from_directory_gen.classes)),
-            flow_from_directory_gen.class_indices
+            flow_from_directory_gen.class_indices,
+            flow_from_directory_gen.filenames
         )
     else:
         generator = datagen.flow_from_directory(
@@ -77,5 +79,7 @@ def prepare_data_generator(config, split_name, needShuffle=True, isRegression=Fa
             generator, 
             len(generator), 
             list(map(int, generator.classes)),
-            generator.class_indices)
+            generator.class_indices,
+            generator.filenames
+        )
     return generator

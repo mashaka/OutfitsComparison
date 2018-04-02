@@ -56,7 +56,8 @@ def predict_using_model(experiment_dir, config, model, _isRegression=False):
     np.savez(
         os.path.join(experiment_dir, config['predicted_file']),
         pred=predicted,
-        y_true=y_true
+        y_true=y_true,
+        filenames=test_generator.filenames
     )
     print('Saved predictions')
     # Estimate
