@@ -1,9 +1,9 @@
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: Regression_test
+experiment_name: 3 - Change loss
 # Description
-description: Add more custom layers
+description: Change loss metric from MSE to MAE
 
 # Pretrained model name
 model_name: Xception
@@ -19,7 +19,7 @@ batch_size: 32
 num_epoches: 200
 #num_epoches: 3 
 
-loss: mean_squared_error
+loss: mean_absolute_error
 optimizer: rmsprop
 metrics: ['mean_squared_error', 'mean_absolute_error']
 
