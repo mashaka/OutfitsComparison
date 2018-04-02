@@ -64,7 +64,7 @@
                         <th>Experiment</th>
                         <th>1-10 acc</th>
                         <th>1-10 acc, gap 1</th>
-                        <th>1-10 acc, gap 1</th>
+                        <th>1-10 acc, gap 2</th>
                         <th>Precision</th>
                         <th>Recall</th>
                         <th>MAE</th>
@@ -152,10 +152,8 @@
                                 Accuracy
                             </div>
                             <div class="chart-stage">
-                                <div id="grid-1-1">
-                                    <div>
-                                        <iframe class="plots-row" frameborder="0" scrolling="yes" :src="accuracyPlotPath"></iframe>
-                                    </div>
+                                <div>
+                                    <iframe class="plots-row" frameborder="0" scrolling="yes" :src="accuracyPlotPath"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -166,10 +164,8 @@
                                 MAE
                             </div>
                             <div class="chart-stage">
-                                <div id="grid-1-1">
-                                    <div>
-                                        <iframe class="plots-row" frameborder="0" scrolling="yes" :src="maePlotPath"></iframe>
-                                    </div>
+                                <div>
+                                    <iframe class="plots-row" frameborder="0" scrolling="yes" :src="maePlotPath"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -180,10 +176,8 @@
                                 MSE
                             </div>
                             <div class="chart-stage">
-                                <div id="grid-1-1">
-                                    <div>
-                                        <iframe class="plots-row" frameborder="0" scrolling="yes" :src="msePlotPath"></iframe>
-                                    </div>
+                                <div>
+                                    <iframe class="plots-row" frameborder="0" scrolling="yes" :src="msePlotPath"></iframe>
                                 </div>
                             </div>
                         </div>
