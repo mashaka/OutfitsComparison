@@ -11,8 +11,8 @@ var app = new Vue({
     PLAN: 'Plan',
     ARTICLES: 'Articles',
     DATASETS: 'Datasets',
-    current: experiments_dir[0],
-    modification: experiments_dir[0].modifications[0],
+    current: experiments_dir.slice(-1)[0] ,
+    modification: experiments_dir.slice(-1)[0].modifications.slice(-1)[0],
     items: experiments_dir
   },
   methods: {
@@ -48,6 +48,9 @@ var app = new Vue({
     }),
     schemePath: fullPathDecorator(function(){
       return this.current_dir + '/plots/scheme.svg';
+    }),
+    histogramPath: fullPathDecorator(function(){
+      return this.current_dir + '/plots/histogram.html';
     })
   }
 });
