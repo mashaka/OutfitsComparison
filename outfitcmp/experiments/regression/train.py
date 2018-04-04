@@ -140,7 +140,7 @@ def train_model():
         logs_file.write(str(ret.history))
     print('Saved model to disk')
     predict_using_model(experiment_dir, config, model, _isRegression=config['is_regression'])
-    print('Finish working in {}'.format(time.strftime("%H:%M:%S", time.gmtime(time.time() - start))))
+    print('Finish working in {}'.format(time.strftime("%d:%H:%M:%S", time.gmtime(time.time() - start))))
     
 def execute():
     """ Execute script """

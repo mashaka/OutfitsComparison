@@ -76,8 +76,8 @@ def import_base_model():
 def train_model():
     """ Train model, estimate results and save logs """
     print('Start loading data')
-    train_generator = prepare_data_generator(config, 'train')
-    validation_generator = prepare_data_generator(config, 'validation')
+    train_generator = prepare_data_generator(config, 'train', isRegression=config['is_regression'])
+    validation_generator = prepare_data_generator(config, 'validation', isRegression=config['is_regression'])
 
     print('Start training')
     start = time.time()
@@ -89,7 +89,11 @@ def train_model():
     # Add a custom layers
     x = Dense(1024, activation='relu')(x)
     x = Dropout(0.5)(x)
-    x = Dense(1024, activation='relu')(x)
+    x = Dense(512, activation='relu')(x)
+    x = Dropout(0.5)(x)
+    x = Dense(256, activation='relu')(x)
+    x = Dropout(0.5)(x)
+    x = Dense(128, activation='relu')(x)
     # And a logistic layer
     predictions = Dense(config['number_of_classes'], activation='softmax')(x)
 
@@ -117,27 +121,27 @@ def train_model():
     
     # Serialize model in JSON
     model_json = model.to_json()
-    with open(os.path.join(experiment_dir, config['model_file']), 'w') as json_file:
+    with open(os.path.join(experiment_dir, config['architecture_file']), 'w') as json_file:
         json_file.write(model_json)
 
     # Train model
     ret = model.fit_generator(
-        generator=train_generator,
+        generator=train_generator.getGenerator(),
         steps_per_epoch=len(train_generator),
         epochs=config['num_epoches'],
         verbose=1,
-        validation_data=validation_generator,
+        validation_data=validation_generator.getGenerator(),
         validation_steps=len(validation_generator),
         callbacks=[check_cb, earlystop_cb])
 
     # Serialize weights in HDF5
-    model.save_weights(os.path.join(experiment_dir, config['weights_file']))
+    model.save(os.path.join(experiment_dir, config['model_file']))
     # Save logs
     with open(os.path.join(experiment_dir, config['logs_file']), 'w') as logs_file:
         logs_file.write(str(ret.history))
     print('Saved model to disk')
-    predict_using_model(experiment_dir, config, model)
-    print('Finish working in {}'.format(time.strftime("%H:%M:%S", time.gmtime(time.time() - start))))
+    predict_using_model(experiment_dir, config, model, _isRegression=config['is_regression'])
+    print('Finish working in {}'.format(time.strftime("%d:%H:%M:%S", time.gmtime(time.time() - start))))
     
 def execute():
     """ Execute script """
