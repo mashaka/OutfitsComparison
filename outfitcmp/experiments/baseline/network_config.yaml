@@ -7,6 +7,7 @@ description: 'Try ro use an architecture from Regression: 2 more custom layers i
 
 # Pretrained model name
 model_name: Xception
+is_regression: False
 
 data_dir: 144k_flow_exif
 number_of_classes: 10
