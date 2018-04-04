@@ -11,6 +11,7 @@ from keras.utils.vis_utils import plot_model
 
 from outfitcmp.scripts.dashboard.generate_desc_markdown import generate_description_markdown
 from outfitcmp.scripts.dashboard.generate_model_results import generate_model_results
+from outfitcmp.scripts.dashboard.generate_histogram import generate_histogram
 
 WORKING_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.join(WORKING_DIR, '..', '..', '..')
@@ -57,7 +58,7 @@ def generate_plots_for_experiment(dashboard_config, experiment_dir):
     if not os.path.exists(os.path.join(experiment_dir, dashboard_config['plots_dir'])):
         os.makedirs(os.path.join(experiment_dir, dashboard_config['plots_dir']))
     else:
-        #return
+        # return
         pass
     generate_description_markdown(dashboard_config, experiment_config, experiment_dir)
     plot_metrics(experiment_dir, dashboard_config, dashboard_config['loss_plot_name'], 'loss', 'val_loss')
@@ -76,6 +77,7 @@ def generate_plots_for_experiment(dashboard_config, experiment_dir):
         )
     else:
         plot_metrics(experiment_dir, dashboard_config, dashboard_config['acc_plot_name'], 'acc', 'val_acc')
+    generate_histogram(dashboard_config, experiment_dir)
     return generate_model_results(dashboard_config, experiment_config, experiment_dir)
 
 def generate_experiments_dir_js(data):
