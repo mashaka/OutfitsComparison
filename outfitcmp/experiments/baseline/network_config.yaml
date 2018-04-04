@@ -1,9 +1,9 @@
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: More custom layers
+experiment_name: Even more custom layers
 # Description
-description: Add Dropout and Dense layers 
+description: 'Try ro use an architecture from Regression: 2 more custom layers in a classification network'
 
 # Pretrained model name
 model_name: Xception
