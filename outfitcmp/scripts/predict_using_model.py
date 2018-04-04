@@ -10,7 +10,7 @@ from outfitcmp.scripts.utils import prepare_data_generator
 
 WORKING_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.join(WORKING_DIR, '..', '..')
-EXPERIMENT_DIR = os.path.join(ROOT_DIR, 'trained_models', 'baseline', 'autumn_nir')
+EXPERIMENT_DIR = os.path.join(ROOT_DIR, 'trained_models', 'regression', '2 - More custom layers')
 DATA_DIR = os.path.join(ROOT_DIR, 'data')
 
 CONFIG_NAME = 'network_config.yaml'
@@ -18,14 +18,8 @@ CONFIG_NAME = 'network_config.yaml'
 def load_model(experiment_dir, config):
     """
     Load serialized model
-    TODO: Now we are saving models in a different way storing weights 
-        and architecture in one file instead of two. Need to adapt this code accordingly  
     """
-    with open(os.path.join(experiment_dir, config['model_file'])) as json_file:
-        loaded_model_json = json_file.read()
-    loaded_model = model_from_json(loaded_model_json)
-    # Load model's weights
-    loaded_model.load_weights(os.path.join(experiment_dir, config['weights_file']))
+    loaded_model.load(os.path.join(experiment_dir, config['model_file']))
     loaded_model.compile(
         loss=config['loss'],
         optimizer=config['optimizer'],
