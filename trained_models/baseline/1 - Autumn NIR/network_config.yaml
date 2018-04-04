@@ -23,8 +23,8 @@ optimizer: rmsprop
 metrics: ['accuracy']
 
 # Names for log files
-model_file: model.json
-weights_file: model.h5
+model_file: model.h5
+architecture_file: model.json
 logs_file: model.log
 predicted_file: predicted.npz
 
