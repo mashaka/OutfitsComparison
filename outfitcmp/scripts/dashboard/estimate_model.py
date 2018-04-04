@@ -8,6 +8,7 @@ from scipy import stats
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score, mean_absolute_error, mean_squared_error
 
+from outfitcmp.scripts.dashboard.estimate_pairs import estimate_people_pairs
 from outfitcmp.scripts.dashboard.utils import load_predictions
 
 WORKING_DIR = os.path.dirname(__file__)
@@ -33,6 +34,7 @@ def estimate(experiment_dir):
         config = yaml.load(yaml_file)
     results = load_predictions(experiment_dir, config)
     print('Loaded predictions for {}'.format(config['experiment_name']))
+    pairs = estimate_people_pairs(results['y_true'], results['y_pred'], results['filenames'])
     results = {
         "precision": precision_score(results['y_true'], results['y_pred_class'], average='macro'),
         "recall": recall_score(results['y_true'], results['y_pred_class'], average='macro'),
@@ -41,7 +43,7 @@ def estimate(experiment_dir):
         "acc_2": accuracy_with_gap(results['y_true'], results['y_pred_class'], 2),
         "MAE": mean_absolute_error(results['y_true'], results['y_pred']),
         "MSE": mean_squared_error(results['y_true'], results['y_pred']),
-        "pairs": "TODO"
+        "pairs": pairs['correct'] / pairs['total']
     }
     for key, value in results.items():
         if isinstance(value, float):
