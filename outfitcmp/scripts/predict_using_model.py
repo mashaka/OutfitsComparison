@@ -19,7 +19,11 @@ def load_model(experiment_dir, config):
     """
     Load serialized model
     """
-    loaded_model.load(os.path.join(experiment_dir, config['model_file']))
+    with open(os.path.join(experiment_dir, config['architecture_file'])) as json_file:
+        loaded_model_json = json_file.read()
+    loaded_model = model_from_json(loaded_model_json)
+    # Load model's weights
+    loaded_model.load_weights(os.path.join(experiment_dir, config['model_file']))
     loaded_model.compile(
         loss=config['loss'],
         optimizer=config['optimizer'],
