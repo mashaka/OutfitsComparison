@@ -2,6 +2,7 @@
 Description: Generate html with experiment's results using markdown format
 """
 import os
+import json
 import markdown2
 
 from outfitcmp.scripts.dashboard.generate_desc_markdown import decorated_format
@@ -34,5 +35,11 @@ def generate_model_results(dashboard_config, experiment_config, experiment_dir):
     )
     with open(result_file, 'w+') as html_file:
         html_file.write(html_data)
-
+    result_json_file = os.path.join(
+        experiment_dir,
+        dashboard_config['plots_dir'],
+        dashboard_config['results_json_name']
+    )
+    with open(result_json_file, 'w+', encoding='utf8') as json_file:
+        json.dump(results, json_file)
     return results

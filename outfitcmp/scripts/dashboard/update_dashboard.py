@@ -3,6 +3,7 @@ Description: Update information on dashboard webpage
 """
 import os
 import yaml
+import json
 import demjson
 import plotly.offline as of_py
 import plotly.graph_objs as go
@@ -58,8 +59,13 @@ def generate_plots_for_experiment(dashboard_config, experiment_dir):
     if not os.path.exists(os.path.join(experiment_dir, dashboard_config['plots_dir'])):
         os.makedirs(os.path.join(experiment_dir, dashboard_config['plots_dir']))
     else:
-        # return
-        pass
+        results_filename = os.path.join(
+            experiment_dir, 
+            dashboard_config['plots_dir'], 
+            dashboard_config['results_json_name'])
+        with open(results_filename) as json_data:
+            results = json.load(json_data)
+        return results
     generate_description_markdown(dashboard_config, experiment_config, experiment_dir)
     plot_metrics(experiment_dir, dashboard_config, dashboard_config['loss_plot_name'], 'loss', 'val_loss')
     if experiment_config['is_regression']:

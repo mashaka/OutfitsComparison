@@ -2,7 +2,7 @@
 *.h5
 *.npz
 checkpoints/
-
+results.json
 .vscode/
 
 # Byte-compiled / optimized / DLL files
