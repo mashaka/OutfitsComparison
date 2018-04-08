@@ -89,11 +89,11 @@ def train_model():
     # Add a custom layers
     x = Dense(1024, activation='relu')(x)
     x = Dropout(0.5)(x)
-    x = Dense(512, activation='relu')(x)
+    x = Dense(1024, activation='relu')(x)
     x = Dropout(0.5)(x)
-    x = Dense(256, activation='relu')(x)
+    x = Dense(1024, activation='relu')(x)
     x = Dropout(0.5)(x)
-    x = Dense(128, activation='relu')(x)
+    x = Dense(1024, activation='relu')(x)
     # And a logistic layer
     predictions = Dense(config['number_of_classes'], activation='softmax')(x)
 

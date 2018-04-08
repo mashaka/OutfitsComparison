@@ -1,9 +1,9 @@
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: Even more custom layers
+experiment_name: 6 - More neurons in custom layers
 # Description
-description: 'Try ro use an architecture from Regression: 2 more custom layers in a classification network'
+description: Try to distribute output on all classes
 
 # Pretrained model name
 model_name: Xception
