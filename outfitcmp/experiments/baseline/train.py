@@ -68,7 +68,7 @@ def import_base_model():
     """ Import particular pretrained model """
     if config['model_name'] == 'Xception':
         from keras.applications.xception import Xception
-        return Xception(weights='imagenet', include_top=False)
+        return Xception(weights='imagenet', include_top=False, input_shape=(299, 299, 3))
     else:
         raise ValueError('{} model is not supported. Use one of these models: {}'.format(
             config['model_name'], SUPPORTED_MODELS))
