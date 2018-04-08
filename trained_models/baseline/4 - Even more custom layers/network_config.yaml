@@ -1,0 +1,31 @@
+# Description: Config for train.py script
+
+# Name of experiment
+experiment_name: 4 - Even more custom layers
+# Description
+description: 'Try ro use an architecture from Regression: 2 more custom layers in a classification network'
+
+# Pretrained model name
+model_name: Xception
+is_regression: False
+
+data_dir: 144k_flow_exif
+number_of_classes: 10
+
+# Network training params
+batch_size: 32
+num_epoches: 200
+# num_epoches: 3
+loss: categorical_crossentropy
+optimizer: rmsprop
+metrics: ['accuracy']
+
+# Names for log files
+model_file: model.h5
+architecture_file: model.json
+logs_file: model.log
+predicted_file: predicted.npz
+
+# For reproducable results
+numpy_seed: 113
+tensorflow_seed: 114 
