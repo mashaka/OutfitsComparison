@@ -11,6 +11,7 @@ var app = new Vue({
     PLAN: 'Plan',
     ARTICLES: 'Articles',
     DATASETS: 'Datasets',
+    METRICS: ['acc_0', 'acc_1', 'acc_2', 'precision', 'recall', 'MAE', 'MSE', 'pairs'],
     current: experiments_dir.slice(-1)[0] ,
     modification: experiments_dir.slice(-1)[0].modifications.slice(-1)[0],
     items: experiments_dir
@@ -19,7 +20,14 @@ var app = new Vue({
     setCurrentExperiment: function (item, modif) {
       this.current = item;
       this.modification = modif;
+    },
+    getMetricClass: function(modif, metric) {
+      if (this.bestMetricResults[metric] === modif.results[metric]) {
+        return true;
+      }
+      return false;
     }
+    
   },
   computed: {
     current_dir: function() {
@@ -51,6 +59,30 @@ var app = new Vue({
     }),
     histogramPath: fullPathDecorator(function(){
       return this.current_dir + '/plots/histogram.html';
-    })
+    }),
+    bestMetricResults: function() {
+      var ans = {};
+      for(let metric of this.METRICS) {
+        let maxValue = -20;
+        for (let directory of this.items) {
+          for (let modif of directory.modifications) {
+            let value = modif.results[metric];
+            if(metric === 'MAE' || metric === 'MSE') {
+              value = -value;
+            }
+            if (maxValue < value) {
+              maxValue = value;
+            }
+          }
+        }
+        if(metric === 'MAE' || metric === 'MSE') {
+          ans[metric] = -maxValue;
+        } else {
+          ans[metric] = maxValue;
+        }
+      }
+      console.log(ans)
+      return ans;
+    }
   }
 });

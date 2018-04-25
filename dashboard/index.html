@@ -58,31 +58,50 @@
             <div class="container overview-tabels">
                 <div class="row justify-content-center">
                     <div class="col col-lg-12">
-                    <table class="table table-bordered experiments-list">
+                    <table class="table table-bordered table-hover experiments-list">
                     <thead>
-                        <tr>
-                        <th>Experiment</th>
-                        <th>1-10 acc</th>
-                        <th>1-10 acc, gap 1</th>
-                        <th>1-10 acc, gap 2</th>
-                        <th>Precision</th>
-                        <th>Recall</th>
-                        <th>MAE</th>
-                        <th>MSE</th>
-                        <th>Corr. pairs</th>
+                        <tr class="info">
+                            <th>Experiment</th>
+                            <th>1-10 acc</th>
+                            <th>1-10 acc, gap 1</th>
+                            <th>1-10 acc, gap 2</th>
+                            <th>Precision</th>
+                            <th>Recall</th>
+                            <th>MAE</th>
+                            <th>MSE</th>
+                            <th>Corr. pairs</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <th colspan="9" class="warning">Results articles</th>
+                        <tr>
+                            <td>6 - Neuroaesthetics in Fashion</td>
+                            <td>0.1963</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>0.1706</td>
+                            <td>0.1747</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>14 - Chic or social</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
                     <tbody v-for="item in items">
+                        <th colspan="9"  class="warning">{{ item.name}}</th>
                         <tr v-for="modif in item.modifications">
-                            <td>{{ item.name + " -> " + modif.name }}</td>
-                            <td>{{ modif.results.acc_0 }}</td>
-                            <td>{{ modif.results.acc_1 }}</td>
-                            <td>{{ modif.results.acc_2 }}</td>
-                            <td>{{ modif.results.precision }}</td>
-                            <td>{{ modif.results.recall }}</td>
-                            <td>{{ modif.results.MAE }}</td>
-                            <td>{{ modif.results.MSE }}</td>
-                            <td>{{ modif.results.pairs }}</td>
+                            <td>{{ modif.name }}</td>
+                            <td v-for="metric in METRICS" v-bind:class="{success: getMetricClass(modif, metric)}"> {{modif.results[metric]}}</td>
                         </tr>
                     </tbody>
                     </table>
@@ -199,9 +218,9 @@
         </div>
     </div >
 
-  <script src="https://unpkg.com/vue"></script>
-  <script src="static/js/experiments_dir.js"></script>
-  <script src="static/js/vue_template.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="static/js/experiments_dir.js"></script>
+    <script src="static/js/vue_template.js"></script>
 
 </body>
 </html>
