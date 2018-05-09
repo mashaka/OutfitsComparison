@@ -7,8 +7,6 @@ import json
 import demjson
 import plotly.offline as of_py
 import plotly.graph_objs as go
-from keras.models import model_from_json
-from keras.utils.vis_utils import plot_model
 
 from outfitcmp.scripts.dashboard.generate_desc_markdown import generate_description_markdown
 from outfitcmp.scripts.dashboard.generate_model_results import generate_model_results
@@ -46,8 +44,16 @@ def plot_metrics(experiment_dir, dashboard_config, plot_name, first_metric, seco
         marker=dict(color='#ffa500'),
         name=second_metric)
     of_py.plot(
+        # {
+        #     'data': [trace1, trace2],
+        #     'layout': {'font': dict(size=24)}
+        # },
         [trace1, trace2],
         filename=os.path.join(experiment_dir, dashboard_config['plots_dir'], plot_name),
+        # image='png',
+        # image_filename='_'.join([experiment_dir, plot_name[:-5]]),
+        # image_width=600, image_height=500,
+        # output_type='file',
         auto_open=False
     )
 
@@ -100,6 +106,7 @@ def execute():
         experiment_dict = {'name': experiment_dir, 'modifications' : []}
         full_path = os.path.join(EXPERIMENTS_ROOT, experiment_dir)
         for modification_dir in os.listdir(full_path):
+            print(modification_dir)
             full_modif_path = os.path.join(full_path, modification_dir)
             results = generate_plots_for_experiment(dashboard_config, full_modif_path)
             with open(os.path.join(full_modif_path, dashboard_config['experiment_config']), 

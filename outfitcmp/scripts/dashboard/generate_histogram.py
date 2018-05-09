@@ -44,13 +44,19 @@ def generate_histogram(dashboard_config, experiment_dir):
             title='Count'
         ),
         bargap=0.2,
-        bargroupgap=0.1
+        bargroupgap=0.1,
+        #font=dict(size=20)
     )
     fig = go.Figure(data=data, layout=layout)
     of_py.plot(
-        fig, 
+        fig,
         filename=os.path.join(
             experiment_dir,
             dashboard_config['plots_dir'],
-            dashboard_config['histogram_name']), 
-        auto_open=False)
+            dashboard_config['histogram_name']),
+        # image='png',
+        # image_filename='_'.join([experiment_dir, dashboard_config['histogram_name'][:-5]]),
+        # image_width=600, image_height=500,
+        # output_type='file',
+        auto_open=False
+    )
