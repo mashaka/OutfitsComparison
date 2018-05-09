@@ -1,10 +1,10 @@
 | Metric                        | Value |
 | ----------------------------- |-------|
-| 1-10 classif. accuracy        | {}    |
-| 1-10 classif. accuracy, gap 1 | {}    |
-| 1-10 classif. accuracy, gap 2 | {}    |
+| Accuracy                      | {}    |
+| Accuracy, gap 1               | {}    |
+| Accuracy, gap 2               | {}    |
 | Precision                     | {}    |
 | Recall                        | {}    |
-| MAE, Regression               | {}    |
-| MSE, Regression               | {}    |
+| MAE                           | {}    |
+| MSE                           | {}    |
 | Correctly estimated pairs     | {}    |
