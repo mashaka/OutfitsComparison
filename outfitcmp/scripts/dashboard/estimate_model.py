@@ -26,12 +26,13 @@ def accuracy_with_gap(y_true, y_pred, gap):
             true_predictions += 1
     return true_predictions/len(y_true)
 
-def estimate(experiment_dir):
+def estimate(experiment_dir, config=None):
     """
     Estimate model
     """
-    with open(os.path.join(experiment_dir, CONFIG_NAME), encoding='utf8') as yaml_file:
-        config = yaml.load(yaml_file)
+    if config is None:
+        with open(os.path.join(experiment_dir, CONFIG_NAME), encoding='utf8') as yaml_file:
+            config = yaml.load(yaml_file)
     results = load_predictions(experiment_dir, config)
     print('Loaded predictions for {}'.format(config['experiment_name']))
     pairs = estimate_people_pairs(results['y_true'], results['y_pred'], results['filenames'])
@@ -43,7 +44,7 @@ def estimate(experiment_dir):
         "acc_2": accuracy_with_gap(results['y_true'], results['y_pred_class'], 2),
         "MAE": mean_absolute_error(results['y_true'], results['y_pred']),
         "MSE": mean_squared_error(results['y_true'], results['y_pred']),
-        "pairs": pairs['correct'] / pairs['total']
+        "pairs": 0 if pairs['total'] == 0 else pairs['correct'] / pairs['total']
     }
     for key, value in results.items():
         if isinstance(value, float):

@@ -13,7 +13,7 @@ DESCRIPTION_TEMPLATE = os.path.join(WORKING_DIR, 'results_template.txt')
 
 def generate_model_results(dashboard_config, experiment_config, experiment_dir):
     """ Generate an experiment's results """
-    results = estimate(experiment_dir)
+    results = estimate(experiment_dir, experiment_config)
     with open(DESCRIPTION_TEMPLATE) as md_file:
         data = md_file.read()
     data = decorated_format(

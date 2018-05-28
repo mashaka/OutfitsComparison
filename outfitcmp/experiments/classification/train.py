@@ -15,7 +15,7 @@ from sklearn.preprocessing import OneHotEncoder
 WORKING_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.join(WORKING_DIR, '..', '..', '..')
 DATA_DIR = os.path.join(ROOT_DIR, 'data')
-RESULTS_DIR = os.path.join(ROOT_DIR, 'trained_models', 'baseline')
+RESULTS_DIR = os.path.join(ROOT_DIR, 'trained_models', 'classification')
 CHECKPOINTS_DIR_NAME = 'checkpoints'
 
 CONFIG_NAME = 'network_config.yaml'

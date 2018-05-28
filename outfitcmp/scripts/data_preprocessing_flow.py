@@ -11,7 +11,7 @@ WORKING_DIR = os.path.dirname(__file__)
 CONFIG_NAME = 'data_preprocessing.yaml'
 CONFIG_FILE = os.path.join(WORKING_DIR, CONFIG_NAME)
 
-DATA_DIR = os.path.join(WORKING_DIR, '..', 'data')
+DATA_DIR = os.path.join(WORKING_DIR, '..', '..', 'data')
 
 FLOW_SUFFIX = '_flow'
 

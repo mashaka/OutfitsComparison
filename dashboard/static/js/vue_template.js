@@ -11,6 +11,7 @@ var app = new Vue({
     PLAN: 'Plan',
     ARTICLES: 'Articles',
     DATASETS: 'Datasets',
+    MANUAL_FEATURES: 'manual_features',
     METRICS: ['acc_0', 'acc_1', 'acc_2', 'precision', 'recall', 'MAE', 'MSE', 'pairs'],
     current: experiments_dir.slice(-1)[0] ,
     modification: experiments_dir.slice(-1)[0].modifications.slice(-1)[0],

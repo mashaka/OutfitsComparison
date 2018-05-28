@@ -8,7 +8,7 @@ import demjson
 import plotly.offline as of_py
 import plotly.graph_objs as go
 
-from outfitcmp.scripts.dashboard.generate_desc_markdown import generate_description_markdown
+from outfitcmp.scripts.dashboard.generate_desc_markdown import generate_description_markdown, generate_short_description_markdown
 from outfitcmp.scripts.dashboard.generate_model_results import generate_model_results
 from outfitcmp.scripts.dashboard.generate_histogram import generate_histogram
 
@@ -57,11 +57,8 @@ def plot_metrics(experiment_dir, dashboard_config, plot_name, first_metric, seco
         auto_open=False
     )
 
-def generate_plots_for_experiment(dashboard_config, experiment_dir):
+def generate_plots_for_experiment(dashboard_config, experiment_dir, experiment_config):
     """ Generate plots for one experiment """
-    with open(os.path.join(experiment_dir, dashboard_config['experiment_config']), 
-            encoding='utf8') as yaml_file:
-        experiment_config = yaml.load(yaml_file)
     if not os.path.exists(os.path.join(experiment_dir, dashboard_config['plots_dir'])):
         os.makedirs(os.path.join(experiment_dir, dashboard_config['plots_dir']))
     else:
@@ -72,24 +69,27 @@ def generate_plots_for_experiment(dashboard_config, experiment_dir):
         with open(results_filename) as json_data:
             results = json.load(json_data)
         return results
-    generate_description_markdown(dashboard_config, experiment_config, experiment_dir)
-    plot_metrics(experiment_dir, dashboard_config, dashboard_config['loss_plot_name'], 'loss', 'val_loss')
-    if experiment_config['is_regression']:
-        plot_metrics(
-            experiment_dir,
-            dashboard_config,
-            dashboard_config['mae_plot_name'],
-            'mean_absolute_error', 'val_mean_absolute_error'
-        )
-        plot_metrics(
-            experiment_dir,
-            dashboard_config,
-            dashboard_config['mse_plot_name'], 
-            'mean_squared_error', 'val_mean_squared_error'
-        )
+    if 'manual_features' in experiment_dir:
+        generate_short_description_markdown(dashboard_config, experiment_config, experiment_dir)
     else:
-        plot_metrics(experiment_dir, dashboard_config, dashboard_config['acc_plot_name'], 'acc', 'val_acc')
-    generate_histogram(dashboard_config, experiment_dir)
+        generate_description_markdown(dashboard_config, experiment_config, experiment_dir)
+        plot_metrics(experiment_dir, dashboard_config, dashboard_config['loss_plot_name'], 'loss', 'val_loss')
+        if experiment_config['is_regression']:
+            plot_metrics(
+                experiment_dir,
+                dashboard_config,
+                dashboard_config['mae_plot_name'],
+                'mean_absolute_error', 'val_mean_absolute_error'
+            )
+            plot_metrics(
+                experiment_dir,
+                dashboard_config,
+                dashboard_config['mse_plot_name'], 
+                'mean_squared_error', 'val_mean_squared_error'
+            )
+        else:
+            plot_metrics(experiment_dir, dashboard_config, dashboard_config['acc_plot_name'], 'acc', 'val_acc')
+    generate_histogram(dashboard_config, experiment_dir, experiment_config)
     return generate_model_results(dashboard_config, experiment_config, experiment_dir)
 
 def generate_experiments_dir_js(data):
@@ -106,12 +106,15 @@ def execute():
         experiment_dict = {'name': experiment_dir, 'modifications' : []}
         full_path = os.path.join(EXPERIMENTS_ROOT, experiment_dir)
         for modification_dir in os.listdir(full_path):
-            print(modification_dir)
+            print(experiment_dir, modification_dir)
             full_modif_path = os.path.join(full_path, modification_dir)
-            results = generate_plots_for_experiment(dashboard_config, full_modif_path)
-            with open(os.path.join(full_modif_path, dashboard_config['experiment_config']), 
+            config_name = dashboard_config['experiment_config']
+            if experiment_dir == 'manual_features':
+                config_name = 'experiment_config.yaml'
+            with open(os.path.join(full_modif_path, config_name), 
                     encoding='utf8') as yaml_file:
                 experiment_config = yaml.load(yaml_file)
+            results = generate_plots_for_experiment(dashboard_config, full_modif_path, experiment_config)
             experiment_dict['modifications'].append({
                 'name' : modification_dir,
                 'is_regression' : str(experiment_config['is_regression']),

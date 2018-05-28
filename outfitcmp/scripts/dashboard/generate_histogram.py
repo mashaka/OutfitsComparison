@@ -9,11 +9,8 @@ import plotly.graph_objs as go
 
 from outfitcmp.scripts.dashboard.utils import load_predictions
 
-def generate_histogram(dashboard_config, experiment_dir):
+def generate_histogram(dashboard_config, experiment_dir, experiment_config):
     ''' Generate a histogram '''
-    config_path = os.path.join(experiment_dir, dashboard_config['experiment_config'])
-    with open(config_path, encoding='utf8') as yaml_file:
-        experiment_config = yaml.load(yaml_file)
     results = load_predictions(experiment_dir, experiment_config)
     trace1 = go.Bar(
         x=[i for i in range(1,11)],
