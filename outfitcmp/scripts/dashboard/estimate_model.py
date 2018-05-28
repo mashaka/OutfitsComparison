@@ -6,7 +6,7 @@ import yaml
 import numpy as np
 from scipy import stats
 
-from sklearn.metrics import accuracy_score, precision_score, recall_score, mean_absolute_error, mean_squared_error
+from sklearn.metrics import accuracy_score, precision_score, recall_score, mean_absolute_error, mean_squared_error, r2_score
 
 from outfitcmp.scripts.dashboard.estimate_pairs import estimate_people_pairs
 from outfitcmp.scripts.dashboard.utils import load_predictions
@@ -44,7 +44,8 @@ def estimate(experiment_dir, config=None):
         "acc_2": accuracy_with_gap(results['y_true'], results['y_pred_class'], 2),
         "MAE": mean_absolute_error(results['y_true'], results['y_pred']),
         "MSE": mean_squared_error(results['y_true'], results['y_pred']),
-        "pairs": 0 if pairs['total'] == 0 else pairs['correct'] / pairs['total']
+        "pairs": 0 if pairs['total'] == 0 else pairs['correct'] / pairs['total'],
+        "r2": r2_score(results['y_true'], results['y_pred'])
     }
     for key, value in results.items():
         if isinstance(value, float):

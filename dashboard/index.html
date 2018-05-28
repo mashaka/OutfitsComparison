@@ -67,13 +67,14 @@
                             <th>1-10 acc, gap 2</th>
                             <th>Precision</th>
                             <th>Recall</th>
+                            <th>R<sup>2</sup></th>
                             <th>MAE</th>
                             <th>MSE</th>
                             <th>Corr. pairs</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <th colspan="9" class="warning">Results articles</th>
+                        <th colspan="10" class="warning">Results articles</th>
                         <tr>
                             <td>6 - Neuroaesthetics in Fashion</td>
                             <td>0.1963</td>
@@ -81,6 +82,7 @@
                             <td>-</td>
                             <td>0.1706</td>
                             <td>0.1747</td>
+                            <td>-</td>
                             <td>-</td>
                             <td>-</td>
                             <td>-</td>
@@ -92,13 +94,14 @@
                             <td>-</td>
                             <td>-</td>
                             <td>-</td>
+                            <td>0.248</td>
                             <td>-</td>
                             <td>-</td>
                             <td>-</td>
                         </tr>
                     </tbody>
                     <tbody v-for="item in items">
-                        <th colspan="9"  class="warning">{{ item.name}}</th>
+                        <th colspan="10"  class="warning">{{ item.name}}</th>
                         <tr v-for="modif in item.modifications">
                             <td>{{ modif.name }}</td>
                             <td v-for="metric in METRICS" v-bind:class="{success: getMetricClass(modif, metric)}"> {{modif.results[metric]}}</td>
@@ -118,10 +121,10 @@
             <img class="mindmeister-image" src="static/img/datasets.png" alt="Datasets">
         </div>
 
-        <div v-else-if="current.name === MANUAL_FEATURES">
+        <div v-else-if="current.name === MANUAL_FEATURES || current.name === CLOTHES_COMP">
             <div class="container-fluid">
                 <div class="row description-row">
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-3">
                         <div class="chart-wrapper">
                             <div class="chart-title">
                                 Description
@@ -131,13 +134,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-3">
                         <div class="chart-wrapper">
                             <div class="chart-title">
                                 Result metrics
                             </div>
                             <div class="chart-stage">
                                 <iframe class="description-row" frameborder="0" scrolling="yes" :src="resultMetricsPath"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="chart-wrapper">
+                            <div class="chart-title">
+                                Histogram
+                            </div>
+                            <div class="chart-stage">
+                                <div>
+                                    <iframe class="description-row" frameborder="0" scrolling="yes" :src="histogramPath"></iframe>
+                                </div>
                             </div>
                         </div>
                     </div>

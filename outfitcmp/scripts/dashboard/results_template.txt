@@ -5,6 +5,7 @@
 | Accuracy, gap 2               | {}    |
 | Precision                     | {}    |
 | Recall                        | {}    |
+| R<sup>2</sup>                 | {}    |
 | MAE                           | {}    |
 | MSE                           | {}    |
 | Correctly estimated pairs     | {}    |

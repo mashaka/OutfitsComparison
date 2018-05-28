@@ -23,6 +23,7 @@ def generate_model_results(dashboard_config, experiment_config, experiment_dir):
         results['acc_2'],
         results['precision'],
         results['recall'],
+        results['r2'],
         results['MAE'],
         results['MSE'],
         results['pairs']

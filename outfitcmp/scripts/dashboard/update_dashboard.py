@@ -69,7 +69,7 @@ def generate_plots_for_experiment(dashboard_config, experiment_dir, experiment_c
         with open(results_filename) as json_data:
             results = json.load(json_data)
         return results
-    if 'manual_features' in experiment_dir:
+    if 'manual_features' in experiment_dir or 'clothes_comparation' in experiment_dir:
         generate_short_description_markdown(dashboard_config, experiment_config, experiment_dir)
     else:
         generate_description_markdown(dashboard_config, experiment_config, experiment_dir)
@@ -109,7 +109,7 @@ def execute():
             print(experiment_dir, modification_dir)
             full_modif_path = os.path.join(full_path, modification_dir)
             config_name = dashboard_config['experiment_config']
-            if experiment_dir == 'manual_features':
+            if experiment_dir in ['manual_features', 'clothes_comparation']:
                 config_name = 'experiment_config.yaml'
             with open(os.path.join(full_modif_path, config_name), 
                     encoding='utf8') as yaml_file:
