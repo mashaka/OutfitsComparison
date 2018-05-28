@@ -14,7 +14,7 @@ var app = new Vue({
     MANUAL_FEATURES: 'manual_features',
     CLOTHES_COMP: 'clothes_comparation',
     METRICS: ['acc_0', 'acc_1', 'acc_2', 'precision', 'recall', 'r2', 'MAE', 'MSE', 'pairs'],
-    current: experiments_dir.slice(-1)[0] ,
+    current: 'Overview',
     modification: experiments_dir.slice(-1)[0].modifications.slice(-1)[0],
     items: experiments_dir
   },
