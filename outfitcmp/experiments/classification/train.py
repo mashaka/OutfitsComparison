@@ -90,18 +90,18 @@ def train_model():
     x = Dense(1024, activation='relu')(x)
     x = Dropout(0.5)(x)
     x = Dense(1024, activation='relu')(x)
-    x = Dropout(0.5)(x)
-    x = Dense(1024, activation='relu')(x)
-    x = Dropout(0.5)(x)
-    x = Dense(1024, activation='relu')(x)
     # And a logistic layer
     predictions = Dense(config['number_of_classes'], activation='softmax')(x)
 
     model = Model(inputs=base_model.input, outputs=predictions)
 
     # Train only the top layers (which were randomly initialized)
-    for layer in base_model.layers:
+    layer_num = len(base_model.layers)
+    for layer in base_model.layers[:int(layer_num * 0.9)]:
         layer.trainable = False
+
+    for layer in base_model.layers[int(layer_num * 0.9):]:
+        layer.trainable = True
 
     model.compile(
         loss=config['loss'],
