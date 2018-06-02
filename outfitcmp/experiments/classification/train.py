@@ -95,8 +95,7 @@ def train_model():
     model = Model(inputs=base_model.input, outputs=predictions)
 
     # Train only the top layers (which were randomly initialized)
-    layer_num = len(base_model.layers)
-    for layer in base_model.layers[:int(layer_num * 0.9)]:
+    for layer in base_model.layers:
         layer.trainable = False
 
     model.compile(
@@ -131,6 +130,7 @@ def train_model():
         callbacks=[check_cb, earlystop_cb])
 
     # Unfreeze Xception
+    layer_num = len(base_model.layers)
     for layer in base_model.layers[int(layer_num * 0.9):]:
         layer.trainable = True
 
