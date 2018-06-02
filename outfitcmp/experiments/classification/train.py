@@ -89,7 +89,6 @@ def train_model():
     # Add a custom layers
     x = Dense(1024, activation='relu')(x)
     x = Dropout(0.5)(x)
-    x = Dense(1024, activation='relu')(x)
     # And a logistic layer
     predictions = Dense(config['number_of_classes'], activation='softmax')(x)
 
@@ -113,7 +112,7 @@ def train_model():
     experiment_dir = os.path.join(RESULTS_DIR, config['experiment_name'])
     check_cb = keras.callbacks.ModelCheckpoint(
         os.path.join(experiment_dir, CHECKPOINTS_DIR_NAME, '{epoch:02d}-{val_loss:.2f}.hdf5'),
-        monitor='val_loss', verbose=0, save_best_only=True, mode='min', period=10
+        monitor='val_loss', verbose=0, save_best_only=True, mode='min', period=5
     )
 
     # Stop if we stop learning

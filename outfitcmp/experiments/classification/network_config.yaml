@@ -1,9 +1,9 @@
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: 6 - Unfreeze Xception
+experiment_name: 7 - Unfreeze Xception 10%
 # Description
-description: Unfreeze 10% of layers in Xception
+description: Unfreeze 10% of layers in Xception and delete last dense layer.
 
 # Pretrained model name
 model_name: Xception
