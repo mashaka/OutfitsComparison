@@ -1,9 +1,9 @@
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: 7 - Unfreeze Xception 10%
+experiment_name: 7 - Train top then unfreeze Xception 10%
 # Description
-description: Unfreeze 10% of layers in Xception and delete last dense layer.
+description: Train top layers and then unfreeze 10% of layers in Xception.
 
 # Pretrained model name
 model_name: Xception
@@ -15,6 +15,7 @@ number_of_classes: 10
 # Network training params
 batch_size: 32
 num_epoches: 200
+num_epoches_top_train: 50
 # num_epoches: 3
 loss: categorical_crossentropy
 optimizer: rmsprop

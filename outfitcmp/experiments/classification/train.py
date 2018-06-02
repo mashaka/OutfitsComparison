@@ -99,9 +99,6 @@ def train_model():
     for layer in base_model.layers[:int(layer_num * 0.9)]:
         layer.trainable = False
 
-    for layer in base_model.layers[int(layer_num * 0.9):]:
-        layer.trainable = True
-
     model.compile(
         loss=config['loss'],
         optimizer=config['optimizer'],
@@ -112,7 +109,7 @@ def train_model():
     experiment_dir = os.path.join(RESULTS_DIR, config['experiment_name'])
     check_cb = keras.callbacks.ModelCheckpoint(
         os.path.join(experiment_dir, CHECKPOINTS_DIR_NAME, '{epoch:02d}-{val_loss:.2f}.hdf5'),
-        monitor='val_loss', verbose=0, save_best_only=True, mode='min', period=5
+        monitor='val_loss', verbose=0, save_best_only=True, mode='min', period=10
     )
 
     # Stop if we stop learning
@@ -123,7 +120,32 @@ def train_model():
     with open(os.path.join(experiment_dir, config['architecture_file']), 'w') as json_file:
         json_file.write(model_json)
 
-    # Train model
+    # Train top layers model
+    ret = model.fit_generator(
+        generator=train_generator.getGenerator(),
+        steps_per_epoch=len(train_generator),
+        epochs=config['num_epoches_top_train'],
+        verbose=1,
+        validation_data=validation_generator.getGenerator(),
+        validation_steps=len(validation_generator),
+        callbacks=[check_cb, earlystop_cb])
+
+    # Unfreeze Xception
+    for layer in base_model.layers[int(layer_num * 0.9):]:
+        layer.trainable = True
+
+    model.compile(
+        loss=config['loss'],
+        optimizer=config['optimizer'],
+        metrics=config['metrics']
+    )
+
+    check_cb = keras.callbacks.ModelCheckpoint(
+        os.path.join(experiment_dir, CHECKPOINTS_DIR_NAME, '{epoch:02d}-{val_loss:.2f}_unfreeze.hdf5'),
+        monitor='val_loss', verbose=0, save_best_only=True, mode='min', period=10
+    )
+
+    # Train final model
     ret = model.fit_generator(
         generator=train_generator.getGenerator(),
         steps_per_epoch=len(train_generator),
