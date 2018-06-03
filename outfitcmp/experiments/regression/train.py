@@ -89,19 +89,18 @@ def train_model():
     # Add a custom layers
     x = Dense(1024, activation='relu')(x)
     x = Dropout(0.5)(x)
-    x = Dense(512, activation='relu')(x)
-    x = Dropout(0.5)(x)
-    x = Dense(256, activation='relu')(x)
-    x = Dropout(0.5)(x)
-    x = Dense(128, activation='relu')(x)
     # And a logistic layer
     predictions = Dense(1)(x)
 
     model = Model(inputs=base_model.input, outputs=predictions)
 
-    # Train only the top layers (which were randomly initialized)
-    for layer in base_model.layers:
+    # Unfreeze 10% of Xception
+    layer_num = len(base_model.layers)
+    for layer in base_model.layers[:int(layer_num * 0.9)]:
         layer.trainable = False
+
+    for layer in base_model.layers[int(layer_num * 0.9):]:
+        layer.trainable = True
 
     model.compile(
         loss=config['loss'],

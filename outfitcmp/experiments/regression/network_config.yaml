@@ -1,9 +1,9 @@
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: 3 - Change loss
+experiment_name: 4 - Unfreeze Xception 10%
 # Description
-description: Change loss metric from MSE to MAE
+description: Unfreeze 10% of layers in Xception.
 
 # Pretrained model name
 model_name: Xception
