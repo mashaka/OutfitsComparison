@@ -94,12 +94,8 @@ def train_model():
 
     model = Model(inputs=base_model.input, outputs=predictions)
 
-    # Unfreeze 10% of Xception
-    layer_num = len(base_model.layers)
-    for layer in base_model.layers[:int(layer_num * 0.9)]:
-        layer.trainable = False
-
-    for layer in base_model.layers[int(layer_num * 0.9):]:
+    # Unfreeze Xception
+    for layer in base_model.layers:
         layer.trainable = True
 
     model.compile(
