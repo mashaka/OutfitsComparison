@@ -1,9 +1,9 @@
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: 5 - Unfreeze 10% Xception more custom layers
+experiment_name: 6 - Unfreeze 50% Xception
 # Description
-description: Change custom layers architecture.
+description: Unfreeze 50% of Xception layers
 
 # Pretrained model name
 model_name: Xception
