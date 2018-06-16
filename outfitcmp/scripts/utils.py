@@ -51,7 +51,18 @@ def prepare_data_generator(config, split_name, needShuffle=True, isRegression=Fa
         raise ValueError('{} model is not supported. Use one of these models: {}'.format(
             config['model_name'], SUPPORTED_MODELS))
     data_dir = os.path.join(DATA_DIR, config['data_dir'], split_name)
-    datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
+    if split_name == 'train':
+        datagen = ImageDataGenerator(
+            rotation_range=5,
+            width_shift_range=0.2,
+            height_shift_range=0.2,
+            shear_range=0.2,
+            zoom_range=0.2,
+            horizontal_flip=True,
+            fill_mode='nearest',
+            preprocessing_function=preprocess_input) 
+    else:
+        datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
     if isRegression:
         flow_from_directory_gen = datagen.flow_from_directory(
             data_dir,
