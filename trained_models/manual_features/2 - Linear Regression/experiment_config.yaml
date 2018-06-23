@@ -1,0 +1,11 @@
+# Description: Config for train.py script
+
+# Name of experiment
+experiment_name: 2 - Linear Regression
+# Description
+description: Train linear regression on color and HOG features.
+
+is_regression: True
+predicted_file: predicted.npz
+
+model: Ridge(alpha=1.0)
