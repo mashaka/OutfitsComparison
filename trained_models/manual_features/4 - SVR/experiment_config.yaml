@@ -1,11 +1,11 @@
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: 3 - Ridge Regression
+experiment_name: 4 - SVR
 # Description
-description: Train Ridge regression on color and HOG features.
+description: Train SVR on color and HOG features.
 
 is_regression: True
 predicted_file: predicted.npz
 
-model: Ridge
+model: SVR

@@ -1,0 +1,11 @@
+# Description: Config for train.py script
+
+# Name of experiment
+experiment_name: 5 - Decision Tree Regressor
+# Description
+description: Train Decision Tree Regressor on color and HOG features.
+
+is_regression: True
+predicted_file: predicted.npz
+
+model: DecisionTreeRegressor

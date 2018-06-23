@@ -8,4 +8,4 @@ description: Train linear regression on color and HOG features.
 is_regression: True
 predicted_file: predicted.npz
 
-model: Ridge(alpha=1.0)
+model: LinearRegression
