@@ -1,9 +1,9 @@
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: 1 - Colors
+experiment_name: 1 - Segments
 # Description
-description: Test manual features train pipeline
+description: Test manual features train pipeline. Using square of segments as features.
 
 is_regression: True
 predicted_file: predicted.npz
