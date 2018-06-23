@@ -7,10 +7,12 @@ import pandas as pd
 import numpy as np
 import shutil
 from sklearn.linear_model import Ridge
+from sklearn.linear_model import LinearRegression
+from sklearn.svm import SVR
 
 WORKING_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.join(WORKING_DIR, '..', '..', '..')
-FEATURES_DIR = os.path.join(ROOT_DIR, 'data', 'manual_features')
+FEATURES_DIR = os.path.join(ROOT_DIR, 'data', 'manual_features_final_2')
 RESULTS_DIR = os.path.join(ROOT_DIR, 'trained_models', 'manual_features')
 
 LABEL_COLUMN = 'label'
@@ -36,11 +38,16 @@ def init_experiment_folder(config):
 def train(config):
     """ Train model using manualy generated features """
     experiment_dir = os.path.join(RESULTS_DIR, config['experiment_name'])
+    print('Reading train features')
     X_train, y_train, _ = read_features('train')
-    clf = Ridge(alpha=1.0)
+    clf = SVR()
+    print('Training')
     clf.fit(X_train, y_train)
+    print('Reading test features')
     X_test, y_test, test_filenames = read_features('test')
+    print('Predicting')
     y_pred = clf.predict(X_test)
+    print('Saving')
     np.savez(
         os.path.join(experiment_dir, config['predicted_file']),
         pred=y_pred,
