@@ -1,7 +1,7 @@
 # Description: Config for train.py script
 
 # Name of experiment
-experiment_name: 1 - Test
+experiment_name: 1 - Colors
 # Description
 description: Test manual features train pipeline
 
