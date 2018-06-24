@@ -109,7 +109,7 @@ def execute():
             print(experiment_dir, modification_dir)
             full_modif_path = os.path.join(full_path, modification_dir)
             config_name = dashboard_config['experiment_config']
-            if experiment_dir in ['manual_features', 'clothes_comparation']:
+            if experiment_dir in ['manual_features', 'clothes_comparation', 'manual_features_plus_128floats']:
                 config_name = 'experiment_config.yaml'
             with open(os.path.join(full_modif_path, config_name), 
                     encoding='utf8') as yaml_file:
