@@ -1,0 +1,11 @@
+# Description: Config for train.py script
+
+# Name of experiment
+experiment_name: 5 - SGDRegressor
+# Description
+description: Train SGDRegressor on Float128.
+
+is_regression: True
+predicted_file: predicted.npz
+
+model: SGDRegressor

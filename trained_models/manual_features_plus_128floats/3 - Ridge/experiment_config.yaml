@@ -1,0 +1,11 @@
+# Description: Config for train.py script
+
+# Name of experiment
+experiment_name: 3 - Ridge
+# Description
+description: Train Ridge on color and HOG features plus Float128.
+
+is_regression: True
+predicted_file: predicted.npz
+
+model: Ridge
